@@ -167,7 +167,7 @@ const Login = () => {
           </Pressable>
 
           <Pressable
-            onPress={() => router.push("/index")} // Navigate to index
+            onPress={() => router.push("/")} // Navigate to index
             style={[loginStyles.backButton, { marginTop: 12 }]} // Add space
           >
             <Text style={loginStyles.backButtonText}>
