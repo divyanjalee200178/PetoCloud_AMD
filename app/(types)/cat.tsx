@@ -1,72 +1,62 @@
-// app/(types)/dog.tsx
+// app/(types)/cat.tsx
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { dogStyles as styles } from '@/styles/dogStyles';
+import { catStyles as styles } from '@/styles/catStyles'; // 🟢 separate styles file for cats
 
-const dogDetails = {
-  beagle: {
-    title: 'Beagle',
-    description: 'Small, curious, friendly dogs with excellent hunting instincts.',
-    image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&h=400&fit=crop&crop=center',
+const catDetails = {
+  persian: {
+    title: 'Persian Cat',
+    description: 'Long-haired, calm, and affectionate cats with a royal look.',
+    image: 'https://cdn.pixabay.com/photo/2017/11/09/21/41/persian-cat-2934720_1280.jpg',
     info: {
-      Colors: 'Tri-color, Lemon, Red & White',
+      Colors: 'White, Cream, Blue, Black',
+      'Average Age': '12–17 years',
+      Medicines: 'Eye care, Hairball prevention',
+    },
+  },
+  siamese: {
+    title: 'Siamese Cat',
+    description: 'Elegant, talkative, and affectionate cats with striking blue eyes.',
+    image: 'https://assets.elanco.com/8e0bf1c2-1ae4-001f-9257-f2be3c683fb1/fca42f04-2474-4302-a238-990c8aebfe8c/Siamese_cat_1110x740.jpg',
+    info: {
+      Colors: 'Seal Point, Blue Point, Chocolate Point',
+      'Average Age': '10–15 years',
+      Medicines: 'Respiratory care, Deworming',
+    },
+  },
+  mainecoon: {
+    title: 'Maine Coon',
+    description: 'Gentle giants, friendly and social, one of the largest domestic cats.',
+    image: 'https://cdn.pixabay.com/photo/2015/03/27/13/10/cat-694718_1280.jpg',
+    info: {
+      Colors: 'Brown Tabby, Black, White',
       'Average Age': '12–15 years',
-      'Medicines': 'Deworming, Flea & Tick Prevention',
+      Medicines: 'Joint supplements, Grooming essentials',
     },
   },
-  bulldog: {
-    title: 'Bulldog',
-    description: 'Gentle, affectionate dogs with distinctive wrinkled faces.',
-    image: 'https://cdn.britannica.com/07/234207-050-0037B589/English-bulldog-dog.jpg',
+  bengal: {
+    title: 'Bengal Cat',
+    description: 'Energetic, playful, and wild-looking cats with leopard-like spots.',
+    image: 'https://img.freepik.com/premium-photo/ravishing-studio-portrait-bengal-cat-isolated-background_31965-141485.jpg',
     info: {
-      Colors: 'White, Fawn, Brindle',
-      'Average Age': '8–10 years',
-      'Medicines': 'Respiratory care, Joint supplements',
+      Colors: 'Spotted, Rosetted, Marbled',
+      'Average Age': '12–16 years',
+      Medicines: 'Flea & Tick prevention, Dental care',
     },
   },
-  labrador: {
-    title: 'Labrador',
-    description: 'Friendly, outgoing, high-spirited companions who love to play.',
-    image: 'https://images.unsplash.com/photo-1558788353-f76d92427f16?w=600&h=400&fit=crop&crop=center',
-    info: {
-      Colors: 'Black, Chocolate, Yellow',
-      'Average Age': '10–12 years',
-      'Medicines': 'Hip dysplasia care, Ear infection drops',
-    },
-  },
-  golden_retriever: {
-    title: 'Golden Retriever',
-    description: 'Intelligent, friendly, and devoted dogs perfect for families.',
-    image: 'https://cdn.pixabay.com/photo/2013/11/28/12/14/dog-220455_1280.jpg',
-    info: {
-      Colors: 'Golden shades',
-      'Average Age': '10–12 years',
-      'Medicines': 'Skin allergy treatment, Joint care',
-    },
-  },
-   golden_retriever: {
-      title: 'Lion Shepherd',
-      description: 'Intelligent, friendly, and devoted dogs perfect for families.',
-      image: 'https://www.german-shepherd-rescue-hampshire.org.uk/wp-content/uploads/2021/05/Rufus-1.jpg',
-      info: {
-        Colors: 'Golden shades',
-        'Average Age': '10–12 years',
-        'Medicines': 'Skin allergy treatment, Joint care',
-      },
-    },
 };
 
 const CatPage = () => {
-  const [selectedDog, setSelectedDog] = useState<string | null>(null);
+  const [selectedCat, setSelectedCat] = useState<string | null>(null);
 
-  const renderHeader = (title = "Dog Categories") => (
+  const renderHeader = (title = "Cat Categories") => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
-        {selectedDog && (
+        {selectedCat && (
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setSelectedDog(null)}
+            onPress={() => setSelectedCat(null)}
           >
             <Icon name="chevron-back-outline" size={24} color="#333333" />
           </TouchableOpacity>
@@ -79,43 +69,43 @@ const CatPage = () => {
     </View>
   );
 
-  const renderDogList = () => (
+  const renderCatList = () => (
     <View style={styles.listContainer}>
       {renderHeader()}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Hero Section */}
         <View style={styles.heroSection}>
           <View style={styles.heroContent}>
-            <Text style={styles.heroTitle}>Dog Care Services</Text>
+            <Text style={styles.heroTitle}>Cat Care Services</Text>
             <Text style={styles.heroDescription}>
-              Professional care for your beloved canine companions
+              Professional care for your lovely feline companions
             </Text>
             <TouchableOpacity style={styles.exploreButton}>
               <Text style={styles.exploreButtonText}>Explore Now</Text>
             </TouchableOpacity>
           </View>
           <Image
-            source={{ uri: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=200&h=200&fit=crop&crop=center' }}
+            source={{ uri: 'https://www.zastavki.com/pictures/1920x1200/2012/Animals_Cats_Beautiful_kitten_033169_.jpg' }}
             style={styles.heroImage}
           />
         </View>
 
-        {/* Dog Breeds List */}
-        <Text style={styles.sectionTitle}>Popular Dog Breeds</Text>
-        {Object.keys(dogDetails).map((key) => (
+        {/* Cat Breeds List */}
+        <Text style={styles.sectionTitle}>Popular Cat Breeds</Text>
+        {Object.keys(catDetails).map((key) => (
           <TouchableOpacity
             key={key}
             style={styles.breedCard}
-            onPress={() => setSelectedDog(key)}
+            onPress={() => setSelectedCat(key)}
           >
             <Image
-              source={{ uri: dogDetails[key].image }}
+              source={{ uri: catDetails[key].image }}
               style={styles.breedImage}
             />
             <View style={styles.breedContent}>
-              <Text style={styles.breedName}>{dogDetails[key].title}</Text>
+              <Text style={styles.breedName}>{catDetails[key].title}</Text>
               <Text style={styles.breedDescription}>
-                {dogDetails[key].description.substring(0, 50)}...
+                {catDetails[key].description.substring(0, 50)}...
               </Text>
             </View>
             <Icon name="chevron-forward-outline" size={20} color="#CCCCCC" style={styles.chevronIcon} />
@@ -126,8 +116,8 @@ const CatPage = () => {
     </View>
   );
 
-  const renderDogDetails = (dogKey: string) => {
-    const details = dogDetails[dogKey];
+  const renderCatDetails = (catKey: string) => {
+    const details = catDetails[catKey];
 
     return (
       <View style={styles.detailsContainer}>
@@ -138,14 +128,14 @@ const CatPage = () => {
           <Text style={styles.detailsTitle}>{details.title}</Text>
           <Text style={styles.detailsDescription}>{details.description}</Text>
 
-          {/* Dog Info Section */}
+          {/* Cat Info Section */}
           <View style={styles.servicesSection}>
             <Text style={styles.servicesTitle}>Breed Information</Text>
             {Object.entries(details.info).map(([label, value], idx) => (
               <View key={idx} style={styles.serviceItem}>
                 <View style={styles.serviceIcon}>
                   <Icon
-                    name={getDogInfoIcon(label)}
+                    name={getCatInfoIcon(label)}
                     size={16}
                     color="#FF6B35"
                   />
@@ -163,11 +153,11 @@ const CatPage = () => {
     );
   };
 
-  const getDogInfoIcon = (info: string) => {
+  const getCatInfoIcon = (info: string) => {
     const icons: Record<string, string> = {
       Colors: 'color-palette-outline',
       'Average Age': 'time-outline',
-      'Common Medicines': 'medical-outline',
+      Medicines: 'medical-outline',
     };
     return icons[info] || 'paw-outline';
   };
@@ -175,14 +165,14 @@ const CatPage = () => {
   // Footer Component
   const renderFooter = () => (
     <View style={styles.footer}>
-      <Text style={styles.footerText}>🐶 Dog Care App © 2025</Text>
+      <Text style={styles.footerText}>🐱 Cat Care App © 2025</Text>
       <Text style={styles.footerSubText}>All rights reserved</Text>
     </View>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      {selectedDog ? renderDogDetails(selectedDog) : renderDogList()}
+      {selectedCat ? renderCatDetails(selectedCat) : renderCatList()}
     </SafeAreaView>
   );
 };
