@@ -48,7 +48,7 @@ const AnimalCate: React.FC = () => {
   const animalPages: Record<string, string> = {
     Dog: '/dog',
     Cat: '/cat',
-    Bird: '/animalType/bird',
+    Bird: '/bird',
     Rabbit: '/animalType/rabbit',
     Fish: '/animalType/fish',
   };
