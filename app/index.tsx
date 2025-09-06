@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { homeStyles } from "@/styles/homeStyles"; // import the styles
+import { homeStyles } from "@/styles/index.js"; // import the styles
 
 export default function Index() {
   const router = useRouter();
