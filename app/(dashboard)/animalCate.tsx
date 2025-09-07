@@ -49,8 +49,8 @@ const AnimalCate: React.FC = () => {
     Dog: '/dog',
     Cat: '/cat',
     Bird: '/bird',
-    Rabbit: '/animalType/rabbit',
-    Fish: '/animalType/fish',
+    Rabbit: '/rabbit',
+    Fish: '/fish',
   };
 
   // Handlers

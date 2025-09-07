@@ -237,7 +237,7 @@ const Dash = () => {
                   activeOpacity={0.7}
                   onPress={() => {
                     if (action.title === "Animal category") router.push("/animalCate");
-                    if (action.title === "Add Food") router.push("/animalCate.tsx");
+                    if (action.title === "Add Food") router.push("/foodCate");
                     if (action.title === "Health Check") router.push("/");
                     if (action.title === "Walk Time") router.push("/");
                     if (action.title === "Play Session") router.push("/");
