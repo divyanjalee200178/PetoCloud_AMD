@@ -34,27 +34,25 @@ const fishDetails = {
       Medicines: 'Water quality maintenance, Disease prevention',
     },
   },
-
   guppy: {
-      title: 'Guppy',
-      description: 'Small, colorful freshwater fish that are very easy to breed and popular in aquariums.',
-      image: 'https://a-z-animals.com/media/guppy-5.jpg',
-      info: {
-        Colors: 'Red, Blue, Yellow, Green, Multi-colored',
-        'Average Age': '2–3 years',
-        Medicines: 'Regular water changes, Disease prevention',
-     },
+    title: 'Guppy',
+    description: 'Small, colorful freshwater fish that are very easy to breed and popular in aquariums.',
+    image: 'https://a-z-animals.com/media/guppy-5.jpg',
+    info: {
+      Colors: 'Red, Blue, Yellow, Green, Multi-colored',
+      'Average Age': '2–3 years',
+      Medicines: 'Regular water changes, Disease prevention',
+    },
   },
-
-    angelfish: {
-      title: 'Angelfish',
-      description: 'Elegant freshwater fish with a unique triangular shape and graceful swimming.',
-      image: 'https://i.pinimg.com/originals/df/2f/d8/df2fd837ea5d946b395ada99cde08534.jpg',
-      info: {
-        Colors: 'Silver, Black, Stripes, Multi-colored',
-        'Average Age': '8–10 years',
-        Medicines: 'Water quality maintenance, Disease prevention',
-     },
+  angelfish: {
+    title: 'Angelfish',
+    description: 'Elegant freshwater fish with a unique triangular shape and graceful swimming.',
+    image: 'https://i.pinimg.com/originals/df/2f/d8/df2fd837ea5d946b395ada99cde08534.jpg',
+    info: {
+      Colors: 'Silver, Black, Stripes, Multi-colored',
+      'Average Age': '8–10 years',
+      Medicines: 'Water quality maintenance, Disease prevention',
+    },
   },
 };
 

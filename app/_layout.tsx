@@ -1,19 +1,14 @@
-import React from "react"
-import "./../global.css"
-import { AuthProvider } from "@/context/AuthContext"
-import { Slot, Stack } from "expo-router"
-
+import React from "react";
+import "./../global.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { Slot } from "expo-router";
 
 const RootLayout = () => {
   return (
-      <AuthProvider>
-        <Slot />
-      </AuthProvider>
+    <AuthProvider>
+      <Slot />
+    </AuthProvider>
+  );
+};
 
-      
-
-
-  )
-}
-
-export default RootLayout
+export default RootLayout;

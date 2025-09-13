@@ -43,3 +43,12 @@
 // // tasks/index
 //
 // export default DashboardLayout
+
+// app/(dashboard)/_layout.tsx
+import { Stack } from "expo-router";
+
+export default function DashboardLayout() {
+  return <Stack />;
+}
+
+export default DashboardLayout

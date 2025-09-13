@@ -89,7 +89,7 @@ export const fishStyles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
 
-  // Hero Section - Orange/Yellow glass morphism
+  // Hero Section
   heroSection: {
     backgroundColor: 'rgba(255, 224, 178, 0.4)',
     borderRadius: 26,
@@ -108,7 +108,6 @@ export const fishStyles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // Bubble effects - Orange/Yellow
   heroBubble1: {
     position: 'absolute',
     top: -15,
@@ -182,7 +181,6 @@ export const fishStyles = StyleSheet.create({
     borderColor: '#FF8C00',
   },
 
-  // Button wave effect - White shimmer
   buttonWave: {
     position: 'absolute',
     top: 0,
@@ -217,7 +215,7 @@ export const fishStyles = StyleSheet.create({
     elevation: 6,
   },
 
-  // Section Titles - Orange theme
+  // Section Titles
   sectionTitle: {
     fontSize: 28,
     fontWeight: '800',
@@ -238,7 +236,7 @@ export const fishStyles = StyleSheet.create({
     letterSpacing: 0.3,
   },
 
-  // Fish Cards - Orange/Yellow theme
+  // Fish Cards
   breedCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
@@ -259,7 +257,6 @@ export const fishStyles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  // Water ripple effect - Yellow
   cardRipple: {
     position: 'absolute',
     top: 0,
@@ -313,7 +310,7 @@ export const fishStyles = StyleSheet.create({
     borderColor: '#FFD700',
   },
 
-  // Details Screen - White background
+  // Details
   detailsContainer: {
     flex: 1,
     backgroundColor: '#FFFFFF',
@@ -359,7 +356,7 @@ export const fishStyles = StyleSheet.create({
     paddingHorizontal: 8,
   },
 
-  // Services Section - Orange/Yellow highlights
+  // Services Section
   servicesSection: {
     backgroundColor: '#FFFFFF',
     borderRadius: 22,
@@ -441,7 +438,7 @@ export const fishStyles = StyleSheet.create({
     flex: 1,
   },
 
-  // Footer - Orange/Yellow theme
+  // Footer
   footer: {
     paddingVertical: 28,
     paddingHorizontal: 24,
@@ -484,24 +481,12 @@ export const fishStyles = StyleSheet.create({
     zIndex: 2,
   },
 
-  // Special orange/yellow effects
-  orangeGradient: {
-    backgroundColor: '#FF8C00',
-  },
+  // Utilities
+  orangeGradient: { backgroundColor: '#FF8C00' },
+  yellowGradient: { backgroundColor: '#FFD700' },
+  lightOrange: { backgroundColor: '#FFE4B5' },
+  creamBackground: { backgroundColor: '#FFFAF0' },
 
-  yellowGradient: {
-    backgroundColor: '#FFD700',
-  },
-
-  lightOrange: {
-    backgroundColor: '#FFE4B5',
-  },
-
-  creamBackground: {
-    backgroundColor: '#FFFAF0',
-  },
-
-  // Bubble animation helpers - Orange/Yellow
   bubbleSmall: {
     width: 20,
     height: 20,
@@ -526,14 +511,14 @@ export const fishStyles = StyleSheet.create({
     borderRadius: 25,
   },
 
-  // Text colors
-  textPrimary: '#FF8C00',
-  textSecondary: '#8B4513',
-  textMuted: '#D2691E',
-  textYellow: '#FFD700',
-  textWhite: '#FFFFFF',
+  // ✅ Corrected text color helpers
+  textPrimary: { color: '#FF8C00' },
+  textSecondary: { color: '#8B4513' },
+  textMuted: { color: '#D2691E' },
+  textYellow: { color: '#FFD700' },
+  textWhite: { color: '#FFFFFF' },
 
-  // Utility styles
+  // Shadows
   orangeShadow: {
     shadowColor: '#FF8C00',
     shadowOffset: { width: 0, height: 6 },
@@ -556,36 +541,14 @@ export const fishStyles = StyleSheet.create({
     position: 'relative',
   },
 
-  // Border utilities
-  orangeBorder: {
-    borderColor: '#FF8C00',
-    borderWidth: 2,
-  },
-
-  yellowBorder: {
-    borderColor: '#FFD700',
-    borderWidth: 2,
-  },
-
-  lightBorder: {
-    borderColor: '#FFE4B5',
-    borderWidth: 1,
-  },
+  // Borders
+  orangeBorder: { borderColor: '#FF8C00', borderWidth: 2 },
+  yellowBorder: { borderColor: '#FFD700', borderWidth: 2 },
+  lightBorder: { borderColor: '#FFE4B5', borderWidth: 1 },
 
   // Background utilities
-  orangeAccent: {
-    backgroundColor: '#FF8C00',
-  },
-
-  yellowAccent: {
-    backgroundColor: '#FFD700',
-  },
-
-  lightAccent: {
-    backgroundColor: '#FFE4B5',
-  },
-
-  creamAccent: {
-    backgroundColor: '#FFFAF0',
-  },
+  orangeAccent: { backgroundColor: '#FF8C00' },
+  yellowAccent: { backgroundColor: '#FFD700' },
+  lightAccent: { backgroundColor: '#FFE4B5' },
+  creamAccent: { backgroundColor: '#FFFAF0' },
 });

@@ -93,7 +93,7 @@ export const rabbitStyles = StyleSheet.create({
     elevation: 10,
     position: 'relative',
     overflow: 'hidden',
-    backdropFilter: 'blur(20px)',
+    // ❌ backdropFilter is not supported in RN
   },
 
   heroGradient: {
@@ -432,39 +432,26 @@ export const rabbitStyles = StyleSheet.create({
   },
 
   // Special accent elements
-  orangeAccent: {
-    backgroundColor: '#FF8C00',
-  },
+  orangeAccent: { backgroundColor: '#FF8C00' },
+  yellowAccent: { backgroundColor: '#FFD700' },
+  lightAccent: { backgroundColor: '#FFE4B5' },
+  creamAccent: { backgroundColor: '#FFFAF0' },
 
-  yellowAccent: {
-    backgroundColor: '#FFD700',
-  },
-
-  lightAccent: {
-    backgroundColor: '#FFE4B5',
-  },
-
-  creamAccent: {
-    backgroundColor: '#FFFAF0',
-  },
-
-  // Text colors
-  textPrimary: '#FF8C00',
-  textSecondary: '#8B4513',
-  textMuted: '#D2691E',
-  textWhite: '#FFFFFF',
+  // Text colors (✅ wrapped correctly)
+  textPrimary: { color: '#FF8C00' },
+  textSecondary: { color: '#8B4513' },
+  textMuted: { color: '#D2691E' },
+  textWhite: { color: '#FFFFFF' },
 
   // Border styles
   orangeBorder: {
     borderColor: '#FF8C00',
     borderWidth: 2,
   },
-
   yellowBorder: {
     borderColor: '#FFD700',
     borderWidth: 2,
   },
-
   lightBorder: {
     borderColor: '#FFE4B5',
     borderWidth: 1,
@@ -478,7 +465,6 @@ export const rabbitStyles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 6,
   },
-
   yellowShadow: {
     shadowColor: '#FFD700',
     shadowOffset: { width: 0, height: 4 },
