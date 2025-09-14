@@ -1,12 +1,70 @@
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, Platform, StatusBar } from "react-native";
-import React, { useState, useCallback } from "react";
+// app/(dashboard)/health/new.tsx
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  Platform,
+  StatusBar,
+} from "react-native";
+import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { createHealth } from "@/services/healthService";
 import { useLoader } from "@/context/LoaderContext";
 import { useAuth } from "@/context/AuthContext";
 import { HealthRecord } from "@/types/health";
+import "../../../global.css";
 
+// ---------- InputField Component ----------
+type InputFieldProps = {
+  label: string;
+  placeholder?: string;
+  value: string;
+  onChangeText?: (text: string) => void;
+  keyboardType?: "default" | "numeric" | "email-address";
+  isClickable?: boolean;
+  onPress?: () => void;
+};
+
+const InputField: React.FC<InputFieldProps> = ({
+  label,
+  placeholder,
+  value,
+  onChangeText,
+  keyboardType = "default",
+  isClickable = false,
+  onPress,
+}) => (
+  <View className="mb-6">
+    <Text className="text-orange-800 text-sm mb-2 font-medium">{label}</Text>
+    {isClickable ? (
+      <TouchableOpacity
+        onPress={onPress}
+        className="border-b border-orange-200 pb-3 bg-orange-50 rounded-lg px-4 py-3"
+      >
+        <Text className={`text-base ${value ? "text-gray-800" : "text-gray-400"}`}>
+          {value || placeholder}
+        </Text>
+      </TouchableOpacity>
+    ) : (
+      <View className="border-b border-orange-200 pb-1 bg-orange-50 rounded-lg px-4">
+        <TextInput
+          placeholder={placeholder}
+          placeholderTextColor="#9CA3AF"
+          keyboardType={keyboardType}
+          value={value}
+          onChangeText={onChangeText}
+          className="text-gray-800 text-base py-3"
+        />
+      </View>
+    )}
+  </View>
+);
+
+// ---------- Main Screen ----------
 const HealthNewScreen = () => {
   const [record, setRecord] = useState<HealthRecord>({
     date: "",
@@ -50,7 +108,8 @@ const HealthNewScreen = () => {
   const formatTime = (time: Date) =>
     time.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
 
-  const getDayName = (date: Date) => date.toLocaleDateString("en-US", { weekday: "long" });
+  const getDayName = (date: Date) =>
+    date.toLocaleDateString("en-US", { weekday: "long" });
 
   const onDateChange = (_, date) => {
     if (date) {
@@ -75,82 +134,48 @@ const HealthNewScreen = () => {
     setShowTimePicker(Platform.OS === "ios");
   };
 
-  const InputField = useCallback(
-    ({ label, placeholder, value, onChangeText, keyboardType = "default", isClickable = false, onPress }) => (
-      <View className="mb-6">
-        <Text className="text-gray-600 text-sm font-normal mb-2">
-          {label}
-        </Text>
-        {isClickable ? (
-          <TouchableOpacity onPress={onPress} className="border-b border-gray-200 pb-3">
-            <Text className={`text-base ${value ? "text-gray-900" : "text-gray-400"}`}>
-              {value || placeholder}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <View className="border-b border-gray-200 pb-1">
-            <TextInput
-              placeholder={placeholder}
-              placeholderTextColor="#9CA3AF"
-              keyboardType={keyboardType}
-              value={value}
-              onChangeText={onChangeText}
-              className="text-gray-900 text-base py-2"
-            />
-          </View>
-        )}
-      </View>
-    ),
-    []
-  );
-
   return (
     <>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor="#FF7F00" />
       <View className="flex-1 bg-white">
-
-        {/* Top Navigation Bar */}
-        <View className="bg-white pt-12 pb-4 px-6 border-b border-gray-100">
-          <View className="flex-row items-center">
-            <TouchableOpacity onPress={() => router.back()} className="mr-4">
-              <Text className="text-gray-900 text-xl">←</Text>
-            </TouchableOpacity>
-            <Text className="text-gray-900 text-base">(health)</Text>
+        {/* Top Navigation */}
+        <View className="bg-orange-500 pt-12 pb-4 px-6">
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center">
+              <TouchableOpacity
+                onPress={() => router.back()}
+                className="mr-4 p-2 rounded-full bg-orange-400"
+              >
+                <Text className="text-white text-xl">←</Text>
+              </TouchableOpacity>
+              <Text className="text-white text-base font-medium">Health Records</Text>
+            </View>
           </View>
         </View>
 
-        {/* Secondary Header */}
-        <View className="bg-white px-6 py-4 border-b border-gray-100">
-          <View className="flex-row items-center">
-            <TouchableOpacity onPress={() => router.back()} className="mr-4">
-              <Text className="text-gray-900 text-xl">←</Text>
-            </TouchableOpacity>
-            <Text className="text-gray-900 text-lg font-semibold">Add Health Record</Text>
-          </View>
+        {/* Orange Header Section */}
+        <View className="bg-orange-500 px-6 pb-6">
+          <Text className="text-white text-2xl font-bold text-center">Pet Health Record</Text>
+          <Text className="text-orange-100 text-center mt-2">Add your pet's health information</Text>
         </View>
 
-        {/* Main Content with Orange Header */}
-        <View className="flex-1 bg-orange-400">
-          {/* Orange header section */}
-          <View className="bg-orange-400 px-6 py-6">
-            <Text className="text-white text-lg font-semibold text-center">Pet Doctor</Text>
-          </View>
-
-          {/* White content area */}
-          <View className="flex-1 bg-white rounded-t-3xl px-6 pt-8">
-            <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Main Content Area */}
+        <View className="flex-1 bg-gray-50 rounded-t-3xl -mt-4 px-6 pt-8">
+          <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+            <View className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+              <Text className="text-orange-500 text-lg font-semibold mb-4">Appointment Details</Text>
 
               <InputField
                 label="Date"
                 placeholder="Select date"
                 value={record.date}
-                isClickable={true}
+                isClickable
                 onPress={() => setShowDatePicker(true)}
               />
 
               <InputField
                 label="Day"
-                placeholder="Day will auto-fill"
+                placeholder="Day will be auto-filled"
                 value={record.day}
                 onChangeText={(text) => setRecord((prev) => ({ ...prev, day: text }))}
               />
@@ -159,16 +184,20 @@ const HealthNewScreen = () => {
                 label="Time"
                 placeholder="Select time"
                 value={record.time}
-                isClickable={true}
+                isClickable
                 onPress={() => setShowTimePicker(true)}
               />
 
               <InputField
                 label="Location"
-                placeholder="Enter location"
+                placeholder="Clinic or hospital name"
                 value={record.location}
                 onChangeText={(text) => setRecord((prev) => ({ ...prev, location: text }))}
               />
+            </View>
+
+            <View className="bg-white rounded-2xl p-6 shadow-sm mb-6">
+              <Text className="text-orange-500 text-lg font-semibold mb-4">Pet Information</Text>
 
               <InputField
                 label="Pet Name"
@@ -179,28 +208,32 @@ const HealthNewScreen = () => {
 
               <InputField
                 label="Pet Age"
-                placeholder="Enter age"
+                placeholder="Enter age in years"
                 keyboardType="numeric"
                 value={record.petAge ? record.petAge.toString() : ""}
                 onChangeText={(text) =>
-                  setRecord((prev) => ({ ...prev, petAge: Number(text.replace(/[^0-9]/g, "")) || 0 }))
+                  setRecord((prev) => ({
+                    ...prev,
+                    petAge: Number(text.replace(/[^0-9]/g, "")) || 0,
+                  }))
                 }
               />
-
-              {/* Submit Button */}
-              <TouchableOpacity
-                className="bg-orange-400 rounded-full py-4 px-8 mt-8 mb-12 mx-8 shadow-lg active:bg-orange-500"
-                onPress={handleSubmit}
-              >
-                <Text className="text-white text-center text-lg font-medium">Submit</Text>
-              </TouchableOpacity>
-
-            </ScrollView>
-
-            {/* Bottom indicator */}
-            <View className="absolute bottom-4 left-0 right-0 items-center">
-              <View className="w-16 h-1 bg-gray-300 rounded-full" />
             </View>
+
+            {/* Submit Button */}
+            <TouchableOpacity
+              className="bg-orange-500 rounded-xl py-5 mx-4 mt-6 mb-10 shadow-md"
+              onPress={handleSubmit}
+            >
+              <Text className="text-white text-center text-lg font-semibold">Save Health Record</Text>
+            </TouchableOpacity>
+
+
+          </ScrollView>
+
+          {/* Bottom Indicator */}
+          <View className="absolute bottom-4 left-0 right-0 items-center">
+            <View className="w-12 h-1 bg-orange-200 rounded-full" />
           </View>
         </View>
 
@@ -212,6 +245,7 @@ const HealthNewScreen = () => {
             display={Platform.OS === "ios" ? "spinner" : "default"}
             onChange={onDateChange}
             maximumDate={new Date()}
+            themeVariant="light"
           />
         )}
 
@@ -222,6 +256,7 @@ const HealthNewScreen = () => {
             mode="time"
             display={Platform.OS === "ios" ? "spinner" : "default"}
             onChange={onTimeChange}
+            themeVariant="light"
           />
         )}
       </View>

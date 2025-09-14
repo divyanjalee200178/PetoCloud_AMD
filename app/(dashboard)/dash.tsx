@@ -76,7 +76,7 @@ const Dash = () => {
     },
     {
       id: 3,
-      title: 'Health Check',
+      title: 'Add Health Records',
       icon: '🏥',
       color: '#4ECDC4',
       bgColor: '#E5F9F7'
@@ -238,8 +238,8 @@ const Dash = () => {
                   onPress={() => {
                     if (action.title === "Animal category") router.push("/animalCate");
                     if (action.title === "Add Food") router.push("/foodCate");
-                    if (action.title === "Health Check") router.push("/new")
-                    if (action.title === "Walk Time") router.push("/");
+                    if (action.title === "Add Health Records") router.push("/new")
+                    if (action.title === "Walk Time") router.push("/index");
                     if (action.title === "Play Session") router.push("/");
                   }}
                 >
