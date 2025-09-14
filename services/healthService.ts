@@ -1,46 +1,38 @@
-import { Health } from "@/types/health"
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc, where, query } from "firebase/firestore"
+import { HealthRecord } from "@/types/health"
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, where, updateDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 
 export const healthRef = collection(db, "health")
 
-export const createHealth = async (health: Health) => {
-  const docRef = await addDoc(healthRef, health)
+export const getAllHealth = async (): Promise<HealthRecord[]> => {
+  const snapshot = await getDocs(healthRef)
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as HealthRecord))
+}
+
+export const getHealthById = async (id: string): Promise<HealthRecord | null> => {
+  const docRef = doc(db, "health", id)
+  const snapshot = await getDoc(docRef)
+  return snapshot.exists() ? ({ id: snapshot.id, ...snapshot.data() } as HealthRecord) : null
+}
+
+export const createHealth = async (record: HealthRecord) => {
+  const docRef = await addDoc(healthRef, record)
   return docRef.id
 }
 
-export const updateHealth = async (id: string, health: Health) => {
-  const healthDocRef = doc(db, "health", id)
-  const { id: _id, ...healthData } = health
-  return updateDoc(healthDocRef, healthData)
+export const updateHealth = async (id: string, record: HealthRecord) => {
+  const { id: _id, ...data } = record
+  const docRef = doc(db, "health", id)
+  return updateDoc(docRef, data)
 }
 
 export const deleteHealth = async (id: string) => {
-  const healthDocRef = doc(db, "health", id)
-  return deleteDoc(healthDocRef)
+  const docRef = doc(db, "health", id)
+  return deleteDoc(docRef)
 }
 
-export const getAllHealthByUserId = async (userId: string): Promise<Health[]> => {
+export const getHealthByUserId = async (userId: string): Promise<HealthRecord[]> => {
   const q = query(healthRef, where("userId", "==", userId))
-  const querySnapshot = await getDocs(q)
-  return querySnapshot.docs.map((docRef) => ({
-    id: docRef.id,
-    ...docRef.data(),
-  })) as Health[]
-}
-
-export const getHealthById = async (id: string) => {
-  const healthDocRef = doc(db, "health", id)
-  const snapshot = await getDoc(healthDocRef)
-  return snapshot.exists()
-    ? ({ id: snapshot.id, ...snapshot.data() } as Health)
-    : null
-}
-
-export const getAllHealth = async (): Promise<Health[]> => {
-  const snapshot = await getDocs(healthRef)
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Health[]
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as HealthRecord))
 }
