@@ -83,7 +83,7 @@ const Dash = () => {
     },
     {
       id: 4,
-      title: 'Walk Time',
+      title: 'View Records',
       icon: '🚶‍♂️',
       color: '#45B7D1',
       bgColor: '#E5F3FF'
@@ -239,7 +239,7 @@ const Dash = () => {
                     if (action.title === "Animal category") router.push("/animalCate");
                     if (action.title === "Add Food") router.push("/foodCate");
                     if (action.title === "Add Health Records") router.push("/new")
-                    if (action.title === "Walk Time") router.push("/index");
+                    if (action.title === "View Records") router.push("/");
                     if (action.title === "Play Session") router.push("/");
                   }}
                 >
