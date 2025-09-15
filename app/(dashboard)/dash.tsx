@@ -90,8 +90,8 @@ const Dash = () => {
     },
     {
       id: 5,
-      title: 'Play Session',
-      icon: '🎾',
+      title: 'Profile Manage',
+      icon: '🐕‍🦺',
       color: '#96CEB4',
       bgColor: '#E5F5ED'
     }
@@ -240,7 +240,7 @@ const Dash = () => {
                     if (action.title === "Add Food") router.push("/foodCate");
                     if (action.title === "Add Health Records") router.push("/new")
                     if (action.title === "View Records") router.push("/");
-                    if (action.title === "Play Session") router.push("/");
+                    if (action.title === "Profile Manage") router.push("/petData");
                   }}
                 >
                   <Text style={styles.actionIcon}>{action.icon}</Text>
