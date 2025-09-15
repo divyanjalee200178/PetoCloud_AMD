@@ -1,7 +1,9 @@
+// app/(types)/rabbit.tsx
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { rabbitStyles as styles } from '@/styles/rabbitStyles';
+import { useRouter } from 'expo-router';
 
 const rabbitDetails = {
   holland_lop: {
@@ -38,18 +40,24 @@ const rabbitDetails = {
 
 const RabbitPage = () => {
   const [selectedRabbit, setSelectedRabbit] = useState<string | null>(null);
+  const router = useRouter();
 
-  const renderHeader = (title = "Rabbit Categories") => (
+  // Header Component
+  const renderHeader = (title = 'Rabbit Categories') => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
-        {selectedRabbit && (
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => setSelectedRabbit(null)}
-          >
-            <Icon name="chevron-back-outline" size={24} color="#333333" />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => {
+            if (selectedRabbit) {
+              setSelectedRabbit(null);
+            } else {
+              router.replace('/dash');
+            }
+          }}
+        >
+          <Icon name="chevron-back-outline" size={24} color="#333333" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
       </View>
       <TouchableOpacity style={styles.profileButton}>
@@ -58,9 +66,18 @@ const RabbitPage = () => {
     </View>
   );
 
+  // Footer Component
+  const renderFooter = () => (
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>🐰 Rabbit Care App © 2025</Text>
+      <Text style={styles.footerSubText}>All rights reserved</Text>
+    </View>
+  );
+
+  // Rabbit List
   const renderRabbitList = () => (
     <View style={styles.listContainer}>
-      {renderHeader()}
+      {renderHeader('Rabbit Categories')}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.heroSection}>
           <View style={styles.heroContent}>
@@ -85,10 +102,7 @@ const RabbitPage = () => {
             style={styles.breedCard}
             onPress={() => setSelectedRabbit(key)}
           >
-            <Image
-              source={{ uri: rabbitDetails[key].image }}
-              style={styles.breedImage}
-            />
+            <Image source={{ uri: rabbitDetails[key].image }} style={styles.breedImage} />
             <View style={styles.breedContent}>
               <Text style={styles.breedName}>{rabbitDetails[key].title}</Text>
               <Text style={styles.breedDescription}>
@@ -103,6 +117,7 @@ const RabbitPage = () => {
     </View>
   );
 
+  // Rabbit Details
   const renderRabbitDetails = (rabbitKey: string) => {
     const details = rabbitDetails[rabbitKey];
 
@@ -111,7 +126,6 @@ const RabbitPage = () => {
         {renderHeader(`${details.title} Details`)}
         <ScrollView style={styles.detailsContent} showsVerticalScrollIndicator={false}>
           <Image source={{ uri: details.image }} style={styles.detailsImage} />
-
           <Text style={styles.detailsTitle}>{details.title}</Text>
           <Text style={styles.detailsDescription}>{details.description}</Text>
 
@@ -139,6 +153,7 @@ const RabbitPage = () => {
     );
   };
 
+  // Icon Mapping
   const getRabbitInfoIcon = (info: string) => {
     const icons: Record<string, string> = {
       Colors: 'color-palette-outline',
@@ -147,13 +162,6 @@ const RabbitPage = () => {
     };
     return icons[info] || 'paw-outline';
   };
-
-  const renderFooter = () => (
-    <View style={styles.footer}>
-      <Text style={styles.footerText}>🐰 Rabbit Care App © 2025</Text>
-      <Text style={styles.footerSubText}>All rights reserved</Text>
-    </View>
-  );
 
   return (
     <SafeAreaView style={styles.container}>

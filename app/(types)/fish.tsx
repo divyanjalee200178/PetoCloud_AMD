@@ -1,7 +1,9 @@
+// app/(types)/fish.tsx
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { fishStyles as styles } from '@/styles/fishStyles';
+import { useRouter } from 'expo-router';
 
 const fishDetails = {
   clownfish: {
@@ -58,18 +60,24 @@ const fishDetails = {
 
 const FishPage = () => {
   const [selectedFish, setSelectedFish] = useState<string | null>(null);
+  const router = useRouter();
 
-  const renderHeader = (title = "Fish Categories") => (
+  // Header Component
+  const renderHeader = (title = 'Fish Categories') => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
-        {selectedFish && (
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => setSelectedFish(null)}
-          >
-            <Icon name="chevron-back-outline" size={24} color="#333333" />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => {
+            if (selectedFish) {
+              setSelectedFish(null);
+            } else {
+              router.replace('/dash');
+            }
+          }}
+        >
+          <Icon name="chevron-back-outline" size={24} color="#333333" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
       </View>
       <TouchableOpacity style={styles.profileButton}>
@@ -78,9 +86,18 @@ const FishPage = () => {
     </View>
   );
 
+  // Footer Component
+  const renderFooter = () => (
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>🐠 Fish Care App © 2025</Text>
+      <Text style={styles.footerSubText}>All rights reserved</Text>
+    </View>
+  );
+
+  // Fish List
   const renderFishList = () => (
     <View style={styles.listContainer}>
-      {renderHeader()}
+      {renderHeader('Fish Categories')}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.heroSection}>
           <View style={styles.heroContent}>
@@ -123,6 +140,7 @@ const FishPage = () => {
     </View>
   );
 
+  // Fish Details
   const renderFishDetails = (fishKey: string) => {
     const details = fishDetails[fishKey];
 
@@ -167,13 +185,6 @@ const FishPage = () => {
     };
     return icons[info] || 'paw-outline';
   };
-
-  const renderFooter = () => (
-    <View style={styles.footer}>
-      <Text style={styles.footerText}>🐠 Fish Care App © 2025</Text>
-      <Text style={styles.footerSubText}>All rights reserved</Text>
-    </View>
-  );
 
   return (
     <SafeAreaView style={styles.container}>

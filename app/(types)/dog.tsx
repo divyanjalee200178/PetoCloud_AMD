@@ -1,8 +1,8 @@
-// app/(types)/dog.tsx
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { dogStyles as styles } from '@/styles/dogStyles';
+import { useRouter } from 'expo-router';
 
 const dogDetails = {
   beagle: {
@@ -36,37 +36,35 @@ const dogDetails = {
     },
   },
   golden_retriever: {
-    title: 'Golden Retriever',
+    title: 'Lion Shepherd',
     description: 'Intelligent, friendly, and devoted dogs perfect for families.',
-    image: 'https://cdn.pixabay.com/photo/2013/11/28/12/14/dog-220455_1280.jpg',
+    image: 'https://www.german-shepherd-rescue-hampshire.org.uk/wp-content/uploads/2021/05/Rufus-1.jpg',
     info: {
       Colors: 'Golden shades',
       'Average Age': '10–12 years',
       'Medicines': 'Skin allergy treatment, Joint care',
     },
   },
-   golden_retriever: {
-      title: 'Lion Shepherd',
-      description: 'Intelligent, friendly, and devoted dogs perfect for families.',
-      image: 'https://www.german-shepherd-rescue-hampshire.org.uk/wp-content/uploads/2021/05/Rufus-1.jpg',
-      info: {
-        Colors: 'Golden shades',
-        'Average Age': '10–12 years',
-        'Medicines': 'Skin allergy treatment, Joint care',
-      },
-    },
 };
 
 const DogPage = () => {
   const [selectedDog, setSelectedDog] = useState<string | null>(null);
+  const router = useRouter();
 
-  const renderHeader = (title = "Dog Categories") => (
+  // Header Component
+  const renderHeader = (title = 'Dog Categories') => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
-        {selectedDog && (
+        {(selectedDog || true) && ( // show back button always
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setSelectedDog(null)}
+            onPress={() => {
+              if (selectedDog) {
+                setSelectedDog(null); // back to list
+              } else {
+                router.push('/dash');
+              }
+            }}
           >
             <Icon name="chevron-back-outline" size={24} color="#333333" />
           </TouchableOpacity>
@@ -79,6 +77,15 @@ const DogPage = () => {
     </View>
   );
 
+  // Footer Component
+  const renderFooter = () => (
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>🐶 Dog Care App © 2025</Text>
+      <Text style={styles.footerSubText}>All rights reserved</Text>
+    </View>
+  );
+
+  // Dog List
   const renderDogList = () => (
     <View style={styles.listContainer}>
       {renderHeader()}
@@ -108,17 +115,19 @@ const DogPage = () => {
             style={styles.breedCard}
             onPress={() => setSelectedDog(key)}
           >
-            <Image
-              source={{ uri: dogDetails[key].image }}
-              style={styles.breedImage}
-            />
+            <Image source={{ uri: dogDetails[key].image }} style={styles.breedImage} />
             <View style={styles.breedContent}>
               <Text style={styles.breedName}>{dogDetails[key].title}</Text>
               <Text style={styles.breedDescription}>
                 {dogDetails[key].description.substring(0, 50)}...
               </Text>
             </View>
-            <Icon name="chevron-forward-outline" size={20} color="#CCCCCC" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#CCCCCC"
+              style={styles.chevronIcon}
+            />
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -126,6 +135,7 @@ const DogPage = () => {
     </View>
   );
 
+  // Dog Details
   const renderDogDetails = (dogKey: string) => {
     const details = dogDetails[dogKey];
 
@@ -134,7 +144,6 @@ const DogPage = () => {
         {renderHeader(`${details.title} Details`)}
         <ScrollView style={styles.detailsContent} showsVerticalScrollIndicator={false}>
           <Image source={{ uri: details.image }} style={styles.detailsImage} />
-
           <Text style={styles.detailsTitle}>{details.title}</Text>
           <Text style={styles.detailsDescription}>{details.description}</Text>
 
@@ -144,11 +153,7 @@ const DogPage = () => {
             {Object.entries(details.info).map(([label, value], idx) => (
               <View key={idx} style={styles.serviceItem}>
                 <View style={styles.serviceIcon}>
-                  <Icon
-                    name={getDogInfoIcon(label)}
-                    size={16}
-                    color="#FF6B35"
-                  />
+                  <Icon name={getDogInfoIcon(label)} size={16} color="#FF6B35" />
                 </View>
                 <Text style={styles.serviceText}>
                   <Text style={{ fontWeight: 'bold' }}>{label}: </Text>
@@ -163,6 +168,7 @@ const DogPage = () => {
     );
   };
 
+  // Icon Mapping
   const getDogInfoIcon = (info: string) => {
     const icons: Record<string, string> = {
       Colors: 'color-palette-outline',
@@ -172,19 +178,7 @@ const DogPage = () => {
     return icons[info] || 'paw-outline';
   };
 
-  // Footer Component
-  const renderFooter = () => (
-    <View style={styles.footer}>
-      <Text style={styles.footerText}>🐶 Dog Care App © 2025</Text>
-      <Text style={styles.footerSubText}>All rights reserved</Text>
-    </View>
-  );
-
-  return (
-    <SafeAreaView style={styles.container}>
-      {selectedDog ? renderDogDetails(selectedDog) : renderDogList()}
-    </SafeAreaView>
-  );
+  return <SafeAreaView style={styles.container}>{selectedDog ? renderDogDetails(selectedDog) : renderDogList()}</SafeAreaView>;
 };
 
 export default DogPage;

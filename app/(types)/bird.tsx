@@ -1,8 +1,8 @@
-// app/(types)/bird.tsx
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { birdStyles as styles } from '@/styles/birdStyles';
+import { useRouter } from 'expo-router';
 
 const birdDetails = {
   parrot: {
@@ -45,7 +45,6 @@ const birdDetails = {
       'Medicines': 'Feather & Nail care, Vitamins',
     },
   },
-
   budgerigar: {
     title: 'Budgerigar',
     description: 'Small, cheerful birds with vibrant colors and playful personalities.',
@@ -56,7 +55,6 @@ const birdDetails = {
       'Medicines': 'Beak & Feather care, Vitamins',
     },
   },
-
   cockatoo: {
     title: 'Cockatoo',
     description: 'Large, intelligent birds with expressive crests and playful nature.',
@@ -67,20 +65,28 @@ const birdDetails = {
       'Medicines': 'Feather care, Vitamin supplements',
     },
   },
-
 };
 
 const BirdPage = () => {
   const [selectedBird, setSelectedBird] = useState<string | null>(null);
+  const router = useRouter();
 
-  const renderHeader = (title = "Bird Categories") => (
+  // Header Component
+  const renderHeader = (title = 'Bird Categories') => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
-        {selectedBird && (
-          <TouchableOpacity style={styles.backButton} onPress={() => setSelectedBird(null)}>
-            <Icon name="chevron-back-outline" size={24} color="#333333" />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => {
+            if (selectedBird) {
+              setSelectedBird(null); // back to bird list
+            } else {
+              router.replace('/dash'); // back to dashboard
+            }
+          }}
+        >
+          <Icon name="chevron-back-outline" size={24} color="#333333" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
       </View>
       <TouchableOpacity style={styles.profileButton}>
@@ -89,14 +95,25 @@ const BirdPage = () => {
     </View>
   );
 
+  // Footer Component
+  const renderFooter = () => (
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>🐦 Bird Care App © 2025</Text>
+      <Text style={styles.footerSubText}>All rights reserved</Text>
+    </View>
+  );
+
+  // Bird List
   const renderBirdList = () => (
     <View style={styles.listContainer}>
-      {renderHeader()}
+      {renderHeader('Bird Categories')}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.heroSection}>
           <View style={styles.heroContent}>
             <Text style={styles.heroTitle}>Bird Care Services</Text>
-            <Text style={styles.heroDescription}>Professional care for your feathered friends</Text>
+            <Text style={styles.heroDescription}>
+              Professional care for your feathered friends
+            </Text>
             <TouchableOpacity style={styles.exploreButton}>
               <Text style={styles.exploreButtonText}>Explore Now</Text>
             </TouchableOpacity>
@@ -109,7 +126,11 @@ const BirdPage = () => {
 
         <Text style={styles.sectionTitle}>Popular Bird Species</Text>
         {Object.keys(birdDetails).map((key) => (
-          <TouchableOpacity key={key} style={styles.breedCard} onPress={() => setSelectedBird(key)}>
+          <TouchableOpacity
+            key={key}
+            style={styles.breedCard}
+            onPress={() => setSelectedBird(key)}
+          >
             <Image source={{ uri: birdDetails[key].image }} style={styles.breedImage} />
             <View style={styles.breedContent}>
               <Text style={styles.breedName}>{birdDetails[key].title}</Text>
@@ -117,7 +138,12 @@ const BirdPage = () => {
                 {birdDetails[key].description.substring(0, 50)}...
               </Text>
             </View>
-            <Icon name="chevron-forward-outline" size={20} color="#CCCCCC" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#CCCCCC"
+              style={styles.chevronIcon}
+            />
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -125,6 +151,7 @@ const BirdPage = () => {
     </View>
   );
 
+  // Bird Details
   const renderBirdDetails = (birdKey: string) => {
     const details = birdDetails[birdKey];
     return (
@@ -155,6 +182,7 @@ const BirdPage = () => {
     );
   };
 
+  // Icon Mapping
   const getBirdInfoIcon = (info: string) => {
     const icons: Record<string, string> = {
       Colors: 'color-palette-outline',
@@ -164,14 +192,11 @@ const BirdPage = () => {
     return icons[info] || 'paw-outline';
   };
 
-  const renderFooter = () => (
-    <View style={styles.footer}>
-      <Text style={styles.footerText}>🐦 Bird Care App © 2025</Text>
-      <Text style={styles.footerSubText}>All rights reserved</Text>
-    </View>
+  return (
+    <SafeAreaView style={styles.container}>
+      {selectedBird ? renderBirdDetails(selectedBird) : renderBirdList()}
+    </SafeAreaView>
   );
-
-  return <SafeAreaView style={styles.container}>{selectedBird ? renderBirdDetails(selectedBird) : renderBirdList()}</SafeAreaView>;
 };
 
 export default BirdPage;

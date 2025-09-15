@@ -1,8 +1,8 @@
-// app/(types)/cat.tsx
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { catStyles as styles } from '@/styles/catStyles'; // 🟢 separate styles file for cats
+import { useRouter } from 'expo-router';
 
 const catDetails = {
   persian: {
@@ -49,14 +49,22 @@ const catDetails = {
 
 const CatPage = () => {
   const [selectedCat, setSelectedCat] = useState<string | null>(null);
+  const router = useRouter();
 
-  const renderHeader = (title = "Cat Categories") => (
+  // Header Component
+  const renderHeader = (title = 'Cat Categories') => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
-        {selectedCat && (
+        {(selectedCat || true) && (
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setSelectedCat(null)}
+            onPress={() => {
+              if (selectedCat) {
+                setSelectedCat(null);
+              } else {
+                router.push('/dash');
+              }
+            }}
           >
             <Icon name="chevron-back-outline" size={24} color="#333333" />
           </TouchableOpacity>
@@ -69,6 +77,15 @@ const CatPage = () => {
     </View>
   );
 
+  // Footer Component
+  const renderFooter = () => (
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>🐱 Cat Care App © 2025</Text>
+      <Text style={styles.footerSubText}>All rights reserved</Text>
+    </View>
+  );
+
+  // Cat List
   const renderCatList = () => (
     <View style={styles.listContainer}>
       {renderHeader()}
@@ -116,6 +133,7 @@ const CatPage = () => {
     </View>
   );
 
+  // Cat Details
   const renderCatDetails = (catKey: string) => {
     const details = catDetails[catKey];
 
@@ -124,7 +142,6 @@ const CatPage = () => {
         {renderHeader(`${details.title} Details`)}
         <ScrollView style={styles.detailsContent} showsVerticalScrollIndicator={false}>
           <Image source={{ uri: details.image }} style={styles.detailsImage} />
-
           <Text style={styles.detailsTitle}>{details.title}</Text>
           <Text style={styles.detailsDescription}>{details.description}</Text>
 
@@ -153,6 +170,7 @@ const CatPage = () => {
     );
   };
 
+  // Icon Mapping
   const getCatInfoIcon = (info: string) => {
     const icons: Record<string, string> = {
       Colors: 'color-palette-outline',
@@ -161,14 +179,6 @@ const CatPage = () => {
     };
     return icons[info] || 'paw-outline';
   };
-
-  // Footer Component
-  const renderFooter = () => (
-    <View style={styles.footer}>
-      <Text style={styles.footerText}>🐱 Cat Care App © 2025</Text>
-      <Text style={styles.footerSubText}>All rights reserved</Text>
-    </View>
-  );
 
   return (
     <SafeAreaView style={styles.container}>
