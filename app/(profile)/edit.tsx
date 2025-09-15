@@ -1,32 +1,45 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native"
-import React, { useEffect, useState } from "react"
-import { useRouter, useLocalSearchParams } from "expo-router"
-import { getPetById, updatePet } from "@/services/petService"
-import { PetProfile } from "@/types/pet"
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { getPetById, updatePet } from "@/services/petService";
+import { PetProfile } from "@/types/pet";
 
 const EditPet = () => {
-  const router = useRouter()
-  const { id } = useLocalSearchParams<{ id: string }>()
-  const [pet, setPet] = useState<PetProfile | null>(null)
+  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const [pet, setPet] = useState<PetProfile | null>(null);
 
   useEffect(() => {
-    if (!id) return
+    if (!id) return;
     const loadPet = async () => {
-      const data = await getPetById(id)
-      if (data) setPet(data)
-    }
-    loadPet()
-  }, [id])
+      const data = await getPetById(id);
+      if (data) {
+        // Parse numeric values safely
+        setPet({
+          ...data,
+          age: Number(data.age) || 0,
+          weight: Number(data.weight) || 0,
+        });
+      }
+    };
+    loadPet();
+  }, [id]);
 
   const handleUpdate = async () => {
     if (!pet?.petName || !pet.species || !pet.breed) {
-      return Alert.alert("Validation", "Pet name, species, and breed are required.")
+      return Alert.alert("Validation", "Pet name, species, and breed are required.");
     }
-    await updatePet(id!, pet)
-    router.back()
-  }
+    // Ensure numbers are correct
+    const updatedPet = {
+      ...pet,
+      age: Number(pet.age) || 0,
+      weight: Number(pet.weight) || 0,
+    };
+    await updatePet(id!, updatedPet);
+    router.back();
+  };
 
-  if (!pet) return <Text className="p-6">Loading...</Text>
+  if (!pet) return <Text className="p-6">Loading...</Text>;
 
   return (
     <ScrollView className="flex-1 bg-orange-50 p-6">
@@ -42,7 +55,7 @@ const EditPet = () => {
               setPet({
                 ...pet,
                 [field]:
-                  field === "age" || field === "weight" ? Number(text) : (text as string),
+                  field === "age" || field === "weight" ? Number(text) || 0 : (text as string),
               })
             }
           />
@@ -56,7 +69,7 @@ const EditPet = () => {
         <Text className="text-white font-semibold text-lg">Update</Text>
       </TouchableOpacity>
     </ScrollView>
-  )
-}
+  );
+};
 
-export default EditPet
+export default EditPet;

@@ -94,7 +94,14 @@ const Dash = () => {
       icon: '🐕‍🦺',
       color: '#96CEB4',
       bgColor: '#E5F5ED'
-    }
+    },
+     {
+          id: 6,
+          title: 'View Profile',
+          icon: '🚶‍♂️',
+          color: '#45B7D1',
+          bgColor: '#E5F3FF'
+     }
   ];
 
   const healthStats = [
@@ -241,6 +248,7 @@ const Dash = () => {
                     if (action.title === "Add Health Records") router.push("/new")
                     if (action.title === "View Records") router.push("/");
                     if (action.title === "Profile Manage") router.push("/petData");
+                    if (action.title === "View Profile") router.push("/(profile)");
                   }}
                 >
                   <Text style={styles.actionIcon}>{action.icon}</Text>
