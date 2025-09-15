@@ -3,7 +3,7 @@ export interface PetProfile {
   petName: string
   age: number
   gender: "Male" | "Female" | "Other"
-  weight: number
+  weight: string
   species: string
   breed: string
   birthday: string
