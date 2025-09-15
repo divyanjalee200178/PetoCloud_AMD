@@ -1,9 +1,9 @@
 import { View, Text, FlatList, TouchableOpacity, RefreshControl } from "react-native";
 import React, { useEffect, useState, useCallback } from "react";
-import { useRouter, useFocusEffect } from "expo-router"; // <--- useFocusEffect
+import { useRouter, useFocusEffect } from "expo-router";
 import { getPetsByUserId, deletePet } from "@/services/petService";
 import { PetProfile } from "@/types/pet";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5, Entypo } from "@expo/vector-icons";
 import { useAuth } from "@/context/AuthContext";
 import "../../global.css";
 
@@ -31,24 +31,39 @@ const ProfileList = () => {
     loadPets();
   };
 
-  // Auto refresh when screen comes into focus (after editing)
   useFocusEffect(
     useCallback(() => {
       loadPets();
     }, [user])
   );
 
+  // Updated Header with Cart and Subtitle
   const renderHeader = () => (
-    <View className="flex-row justify-between items-center mb-6">
-      <TouchableOpacity
-        onPress={() => router.replace("/dash")}
-        className="p-2 bg-white rounded-full shadow-sm"
-      >
-        <MaterialIcons name="arrow-back" size={24} color="#ea580c" />
-      </TouchableOpacity>
+    <View className="mb-6">
+      <View className="flex-row justify-between items-center mb-2">
+        <TouchableOpacity
+          onPress={() => router.replace("/dash")}
+          className="p-2 bg-white rounded-full shadow-sm"
+        >
+          <MaterialIcons name="arrow-back" size={24} color="#ea580c" />
+        </TouchableOpacity>
+
+        <Text className="text-xl font-bold text-orange-900 flex-1 text-center">
+          My Pets
+        </Text>
+
+
+      </View>
+
+      {/* Short Description */}
+      <Text className="text-orange-700 text-sm text-center">
+        Manage your pets, track their health, and stay up to date with vaccinations.
+      </Text>
+
+      {/* Add Pet Button */}
       <TouchableOpacity
         onPress={() => router.push("/petData")}
-        className="flex-row items-center bg-orange-500 px-5 py-3 rounded-xl shadow-md active:bg-orange-600"
+        className="flex-row items-center bg-orange-500 px-5 py-3 rounded-xl shadow-md mt-4 justify-center active:bg-orange-600"
       >
         <MaterialIcons name="add" size={20} color="white" />
         <Text className="text-white font-semibold ml-2">Add Pet</Text>
