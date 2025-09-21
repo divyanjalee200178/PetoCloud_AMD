@@ -50,7 +50,7 @@ const AppointmentScreen = () => {
         <View className="flex-row items-center justify-between mb-6">
           <Text className="text-3xl font-bold text-white">Appointments</Text>
           <Pressable
-            onPress={() => router.push("/appointment/new")}
+            onPress={() => router.push("/new")}
             className="bg-white p-3 rounded-full shadow-md"
           >
             <MaterialIcons name="add" size={24} color="#22c55e" />
@@ -79,7 +79,7 @@ const AppointmentScreen = () => {
             </Text>
             <Pressable
               className="bg-green-500 px-6 py-3 rounded-full shadow-md"
-              onPress={() => router.push("/appointment/new")}
+              onPress={() => router.push("/new")}
             >
               <Text className="text-white font-semibold">Schedule Appointment</Text>
             </Pressable>
@@ -122,7 +122,13 @@ const AppointmentScreen = () => {
               <View className="flex-row justify-end space-x-3">
                 <TouchableOpacity
                   className="bg-green-100 px-4 py-2 rounded-full flex-row items-center"
-                  onPress={() => app.id && router.push(`/appointment/edit?id=${app.id}`)}
+                  onPress={() =>
+                    app.id &&
+                    router.push({
+                      pathname: "/appointment",
+                      params: { id: app.id, mode: "edit" },
+                    })
+                  }
                 >
                   <MaterialIcons name="edit" size={16} color="#22c55e" />
                   <Text className="text-green-700 font-medium ml-1">Edit</Text>
@@ -146,7 +152,7 @@ const AppointmentScreen = () => {
         <View className="absolute bottom-5 right-5">
           <Pressable
             className="bg-green-500 p-5 rounded-full shadow-xl"
-            onPress={() => router.push("/appointment/new")}
+            onPress={() => router.push("/new")}
           >
             <MaterialIcons name="add" size={28} color="#fff" />
           </Pressable>

@@ -56,13 +56,13 @@ const AnimalCate: React.FC = () => {
   // Handlers
   const handleQuickActionPress = (action: any) => {
     const page = quickActionPages[action.title];
-    if (page) router.push(page);
+    if (page) router.push(page as any);
     else console.log('Action not implemented:', action.title);
   };
 
   const handleAnimalPress = (animal: string) => {
     const page = animalPages[animal];
-    if (page) router.push(page);
+    if (page) router.push(page as "/dog" | "/cat" | "/bird" | "/rabbit" | "/fish");
     else console.log('Animal page not found:', animal);
   };
 

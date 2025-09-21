@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { rabbitStyles as styles } from '@/styles/rabbitStyles';
 import { useRouter } from 'expo-router';
 
+// Rabbit details object
 const rabbitDetails = {
   holland_lop: {
     title: 'Holland Lop',
@@ -38,8 +39,11 @@ const rabbitDetails = {
   },
 };
 
+// Type of keys in rabbitDetails
+type RabbitKey = keyof typeof rabbitDetails;
+
 const RabbitPage = () => {
-  const [selectedRabbit, setSelectedRabbit] = useState<string | null>(null);
+  const [selectedRabbit, setSelectedRabbit] = useState<RabbitKey | null>(null);
   const router = useRouter();
 
   // Header Component
@@ -90,13 +94,15 @@ const RabbitPage = () => {
             </TouchableOpacity>
           </View>
           <Image
-            source={{ uri: 'https://www.baltana.com/files/wallpapers-6/Cute-White-Baby-Rabbit-Wallpaper-19291.jpg' }}
+            source={{
+              uri: 'https://www.baltana.com/files/wallpapers-6/Cute-White-Baby-Rabbit-Wallpaper-19291.jpg',
+            }}
             style={styles.heroImage}
           />
         </View>
 
         <Text style={styles.sectionTitle}>Popular Rabbit Breeds</Text>
-        {Object.keys(rabbitDetails).map((key) => (
+        {(Object.keys(rabbitDetails) as RabbitKey[]).map((key) => (
           <TouchableOpacity
             key={key}
             style={styles.breedCard}
@@ -109,7 +115,12 @@ const RabbitPage = () => {
                 {rabbitDetails[key].description.substring(0, 50)}...
               </Text>
             </View>
-            <Icon name="chevron-forward-outline" size={20} color="#CCCCCC" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#CCCCCC"
+              style={styles.chevronIcon}
+            />
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -118,7 +129,7 @@ const RabbitPage = () => {
   );
 
   // Rabbit Details
-  const renderRabbitDetails = (rabbitKey: string) => {
+  const renderRabbitDetails = (rabbitKey: RabbitKey) => {
     const details = rabbitDetails[rabbitKey];
 
     return (
@@ -134,11 +145,7 @@ const RabbitPage = () => {
             {Object.entries(details.info).map(([label, value], idx) => (
               <View key={idx} style={styles.serviceItem}>
                 <View style={styles.serviceIcon}>
-                  <Icon
-                    name={getRabbitInfoIcon(label)}
-                    size={16}
-                    color="#FF6B35"
-                  />
+                  <Icon name={getRabbitInfoIcon(label)} size={16} color="#FF6B35" />
                 </View>
                 <Text style={styles.serviceText}>
                   <Text style={{ fontWeight: 'bold' }}>{label}: </Text>

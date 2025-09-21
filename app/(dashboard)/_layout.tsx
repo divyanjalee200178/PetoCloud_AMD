@@ -48,7 +48,7 @@
 import { Stack } from "expo-router";
 
 export default function DashboardLayout() {
-  return <Stack />;
+  return (
+    <Stack screenOptions={{ headerShown: false }} />
+  );
 }
-
-export default DashboardLayout

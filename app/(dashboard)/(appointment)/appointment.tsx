@@ -267,7 +267,7 @@ const AppointmentNewScreen = () => {
                 icon="👨‍⚕️"
               />
               {/* Status Selection */}
-              <InputField label="Status" icon="📌">
+              <InputField label="Status" icon="📌" value={appointment.status ?? ""}>
                 <View className="flex-row space-x-2">
                   {statusOptions.map((s) => (
                     <TouchableOpacity

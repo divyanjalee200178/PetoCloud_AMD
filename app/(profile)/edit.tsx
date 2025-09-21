@@ -21,7 +21,7 @@ const EditPet = () => {
           setPet({
             ...data,
             age: Number(data.age) || 0,
-            weight: Number(data.weight) || 0,
+            weight: data.weight?.toString() || "0",
           });
         }
       } catch (error) {
@@ -42,7 +42,7 @@ const EditPet = () => {
       const updatedPet = {
         ...pet,
         age: Number(pet.age) || 0,
-        weight: Number(pet.weight) || 0,
+        weight: pet.weight?.toString() || "0",
       };
       await updatePet(id!, updatedPet);
       Alert.alert("Success", "Pet details updated successfully!");

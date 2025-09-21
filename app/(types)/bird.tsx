@@ -1,78 +1,113 @@
-import React, { useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { birdStyles as styles } from '@/styles/birdStyles';
-import { useRouter } from 'expo-router';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { birdStyles as styles } from "@/styles/birdStyles";
+import { useRouter } from "expo-router";
 
-const birdDetails = {
+// ---- Types ----
+type BirdKey =
+  | "parrot"
+  | "canary"
+  | "cockatiel"
+  | "lovebird"
+  | "budgerigar"
+  | "cockatoo";
+
+interface BirdInfo {
+  Colors: string;
+  "Average Age": string;
+  Medicines: string;
+}
+
+interface BirdDetail {
+  title: string;
+  description: string;
+  image: string;
+  info: BirdInfo;
+}
+
+// ---- Data ----
+const birdDetails: Record<BirdKey, BirdDetail> = {
   parrot: {
-    title: 'Parrot',
-    description: 'Colorful, intelligent birds known for their ability to mimic sounds.',
-    image: 'https://wallpaperaccess.com/full/3471524.jpg',
+    title: "Parrot",
+    description: "Colorful, intelligent birds known for their ability to mimic sounds.",
+    image: "https://wallpaperaccess.com/full/3471524.jpg",
     info: {
-      Colors: 'Green, Red, Blue, Yellow',
-      'Average Age': '50–60 years',
-      'Medicines': 'Beak & Feather care, Vitamins',
+      Colors: "Green, Red, Blue, Yellow",
+      "Average Age": "50–60 years",
+      Medicines: "Beak & Feather care, Vitamins",
     },
   },
   canary: {
-    title: 'Canary',
-    description: 'Small, bright birds famous for their beautiful singing.',
-    image: 'https://img.freepik.com/premium-photo/canary-perched-front-beautiful-background_682290-200.jpg',
+    title: "Canary",
+    description: "Small, bright birds famous for their beautiful singing.",
+    image:
+      "https://img.freepik.com/premium-photo/canary-perched-front-beautiful-background_682290-200.jpg",
     info: {
-      Colors: 'Yellow, Orange, White',
-      'Average Age': '10–15 years',
-      'Medicines': 'Wing trimming, Vitamin supplements',
+      Colors: "Yellow, Orange, White",
+      "Average Age": "10–15 years",
+      Medicines: "Wing trimming, Vitamin supplements",
     },
   },
   cockatiel: {
-    title: 'Cockatiel',
-    description: 'Friendly, social birds with distinctive crest feathers.',
-    image: 'https://i.pinimg.com/originals/7b/90/83/7b9083d3d9b586e311f550ed982aeafe.jpg',
+    title: "Cockatiel",
+    description: "Friendly, social birds with distinctive crest feathers.",
+    image:
+      "https://i.pinimg.com/originals/7b/90/83/7b9083d3d9b586e311f550ed982aeafe.jpg",
     info: {
-      Colors: 'Gray, White, Yellow, Orange',
-      'Average Age': '15–20 years',
-      'Medicines': 'Wing care, Nutrition supplements',
+      Colors: "Gray, White, Yellow, Orange",
+      "Average Age": "15–20 years",
+      Medicines: "Wing care, Nutrition supplements",
     },
   },
   lovebird: {
-    title: 'Lovebird',
-    description: 'Small, affectionate birds that thrive in pairs.',
-    image: 'https://wallpaperaccess.com/full/4858207.jpg',
+    title: "Lovebird",
+    description: "Small, affectionate birds that thrive in pairs.",
+    image: "https://wallpaperaccess.com/full/4858207.jpg",
     info: {
-      Colors: 'Green, Blue, Yellow, Red',
-      'Average Age': '10–15 years',
-      'Medicines': 'Feather & Nail care, Vitamins',
+      Colors: "Green, Blue, Yellow, Red",
+      "Average Age": "10–15 years",
+      Medicines: "Feather & Nail care, Vitamins",
     },
   },
   budgerigar: {
-    title: 'Budgerigar',
-    description: 'Small, cheerful birds with vibrant colors and playful personalities.',
-    image: 'https://picfiles.alphacoders.com/253/thumb-1920-253850.jpg',
+    title: "Budgerigar",
+    description: "Small, cheerful birds with vibrant colors and playful personalities.",
+    image: "https://picfiles.alphacoders.com/253/thumb-1920-253850.jpg",
     info: {
-      Colors: 'Green, Blue, Yellow, White',
-      'Average Age': '5–10 years',
-      'Medicines': 'Beak & Feather care, Vitamins',
+      Colors: "Green, Blue, Yellow, White",
+      "Average Age": "5–10 years",
+      Medicines: "Beak & Feather care, Vitamins",
     },
   },
   cockatoo: {
-    title: 'Cockatoo',
-    description: 'Large, intelligent birds with expressive crests and playful nature.',
-    image: 'https://images.coolwallpapers.me/picsup/5441942-sulphur-crested-cockatoo-wallpapers.jpg',
+    title: "Cockatoo",
+    description:
+      "Large, intelligent birds with expressive crests and playful nature.",
+    image:
+      "https://images.coolwallpapers.me/picsup/5441942-sulphur-crested-cockatoo-wallpapers.jpg",
     info: {
-      Colors: 'White, Pink, Grey, Yellow',
-      'Average Age': '40–70 years',
-      'Medicines': 'Feather care, Vitamin supplements',
+      Colors: "White, Pink, Grey, Yellow",
+      "Average Age": "40–70 years",
+      Medicines: "Feather care, Vitamin supplements",
     },
   },
 };
 
+// ---- Component ----
 const BirdPage = () => {
-  const [selectedBird, setSelectedBird] = useState<string | null>(null);
+  const [selectedBird, setSelectedBird] = useState<BirdKey | null>(null);
   const router = useRouter();
 
   // Header Component
-  const renderHeader = (title = 'Bird Categories') => (
+  const renderHeader = (title = "Bird Categories") => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
         <TouchableOpacity
@@ -81,7 +116,7 @@ const BirdPage = () => {
             if (selectedBird) {
               setSelectedBird(null); // back to bird list
             } else {
-              router.replace('/dash'); // back to dashboard
+              router.replace("/dash"); // back to dashboard
             }
           }}
         >
@@ -106,7 +141,7 @@ const BirdPage = () => {
   // Bird List
   const renderBirdList = () => (
     <View style={styles.listContainer}>
-      {renderHeader('Bird Categories')}
+      {renderHeader("Bird Categories")}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.heroSection}>
           <View style={styles.heroContent}>
@@ -119,40 +154,48 @@ const BirdPage = () => {
             </TouchableOpacity>
           </View>
           <Image
-            source={{ uri: 'https://mixingimages.in/wp-content/uploads/2023/09/Birds-Wallpaper.jpg' }}
+            source={{
+              uri: "https://mixingimages.in/wp-content/uploads/2023/09/Birds-Wallpaper.jpg",
+            }}
             style={styles.heroImage}
           />
         </View>
 
         <Text style={styles.sectionTitle}>Popular Bird Species</Text>
-        {Object.keys(birdDetails).map((key) => (
-          <TouchableOpacity
-            key={key}
-            style={styles.breedCard}
-            onPress={() => setSelectedBird(key)}
-          >
-            <Image source={{ uri: birdDetails[key].image }} style={styles.breedImage} />
-            <View style={styles.breedContent}>
-              <Text style={styles.breedName}>{birdDetails[key].title}</Text>
-              <Text style={styles.breedDescription}>
-                {birdDetails[key].description.substring(0, 50)}...
-              </Text>
-            </View>
-            <Icon
-              name="chevron-forward-outline"
-              size={20}
-              color="#CCCCCC"
-              style={styles.chevronIcon}
-            />
-          </TouchableOpacity>
-        ))}
+        {Object.keys(birdDetails).map((key) => {
+          const birdKey = key as BirdKey; // 🔑 cast
+          return (
+            <TouchableOpacity
+              key={birdKey}
+              style={styles.breedCard}
+              onPress={() => setSelectedBird(birdKey)}
+            >
+              <Image
+                source={{ uri: birdDetails[birdKey].image }}
+                style={styles.breedImage}
+              />
+              <View style={styles.breedContent}>
+                <Text style={styles.breedName}>{birdDetails[birdKey].title}</Text>
+                <Text style={styles.breedDescription}>
+                  {birdDetails[birdKey].description.substring(0, 50)}...
+                </Text>
+              </View>
+              <Icon
+                name="chevron-forward-outline"
+                size={20}
+                color="#CCCCCC"
+                style={styles.chevronIcon}
+              />
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
       {renderFooter()}
     </View>
   );
 
   // Bird Details
-  const renderBirdDetails = (birdKey: string) => {
+  const renderBirdDetails = (birdKey: BirdKey) => {
     const details = birdDetails[birdKey];
     return (
       <View style={styles.detailsContainer}>
@@ -170,7 +213,7 @@ const BirdPage = () => {
                   <Icon name={getBirdInfoIcon(label)} size={16} color="#42A5F5" />
                 </View>
                 <Text style={styles.serviceText}>
-                  <Text style={{ fontWeight: 'bold' }}>{label}: </Text>
+                  <Text style={{ fontWeight: "bold" }}>{label}: </Text>
                   {value}
                 </Text>
               </View>
@@ -185,11 +228,11 @@ const BirdPage = () => {
   // Icon Mapping
   const getBirdInfoIcon = (info: string) => {
     const icons: Record<string, string> = {
-      Colors: 'color-palette-outline',
-      'Average Age': 'time-outline',
-      Medicines: 'medical-outline',
+      Colors: "color-palette-outline",
+      "Average Age": "time-outline",
+      Medicines: "medical-outline",
     };
-    return icons[info] || 'paw-outline';
+    return icons[info] || "paw-outline";
   };
 
   return (

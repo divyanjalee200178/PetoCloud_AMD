@@ -102,13 +102,13 @@ export default function Index() {
           <View style={homeStyles.ctaSection}>
             <TouchableOpacity
               style={homeStyles.ctaButton}
-              onPress={() => router.push("/(auth)/login")}
+              onPress={() => router.push("/login")}
             >
               <Text style={homeStyles.ctaButtonText}>Get Started</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => router.push("/(auth)/register")}
+              onPress={() => router.push("/register")}
               style={homeStyles.registerButton}
             >
               <Text style={homeStyles.registerLink}>Create an account</Text>

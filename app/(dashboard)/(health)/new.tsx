@@ -193,7 +193,7 @@ const InputField: React.FC<InputFieldProps> = ({
 };
 
 
-const ThemeSwitcher = ({ currentTheme, onThemeChange }: { currentTheme: string, onThemeChange: (theme: string) => void }) => (
+const ThemeSwitcher = ({ currentTheme, onThemeChange }: { currentTheme: 'original' | 'modern' | 'glass' | 'neon' | 'minimal', onThemeChange: (theme: 'original' | 'modern' | 'glass' | 'neon' | 'minimal') => void }) => (
   <View className="bg-white rounded-2xl p-6 shadow-lg mb-6 border border-gray-100">
     <Text className="text-gray-800 text-lg font-bold mb-4 text-center">🎨 Choose Design Theme</Text>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
@@ -305,7 +305,7 @@ const HealthNewScreen = () => {
   const getDayName = (date: Date) =>
     date.toLocaleDateString("en-US", { weekday: "long" });
 
-  const onDateChange = (_, date) => {
+  const onDateChange = (_: any, date?: Date) => {
     if (date) {
       setSelectedDate(date);
       setRecord((prev) => ({
@@ -317,7 +317,7 @@ const HealthNewScreen = () => {
     setShowDatePicker(Platform.OS === "ios");
   };
 
-  const onTimeChange = (_, time) => {
+  const onTimeChange = (_: any, time?: Date) => {
     if (time) {
       setSelectedTime(time);
       setRecord((prev) => ({

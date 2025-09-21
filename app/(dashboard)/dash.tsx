@@ -42,7 +42,7 @@ const Dash = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatTime = (date) => {
+  const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
@@ -50,7 +50,7 @@ const Dash = () => {
     });
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
@@ -253,9 +253,9 @@ const Dash = () => {
                     if (action.title === "Animal category") router.push("/animalCate");
                     if (action.title === "Add Food") router.push("/foodCate");
                     if (action.title === "Add Health Records") router.push("/new")
-                    if (action.title === "View Records") router.push("/");
+                    if (action.title === "View Records") router.push("/view");
                     if (action.title === "Profile Manage") router.push("/petData");
-                    if (action.title === "View Profile") router.push("/(profile)");
+                    if (action.title === "View Profile") router.push("/viewProfile");
                     if (action.title === "Appointments") router.push("/appointment");
                   }}
                 >
@@ -294,7 +294,7 @@ const Dash = () => {
                   <Text style={styles.statUnit}>{stat.unit}</Text>
                 </View>
                 <Text style={[styles.statTrend, { color: stat.color }]}>
-                  {stat.trend > 0 ? '↑' : '↓'} {Math.abs(stat.trend)}
+                  {Number(stat.trend) > 0 ? '↑' : '↓'} {Math.abs(Number(stat.trend))}
                 </Text>
               </Animated.View>
             ))}

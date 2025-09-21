@@ -18,7 +18,7 @@ const HealthEditScreen = () => {
     day: "",
     time: "",
     location: "",
-    petAge: "",
+    petAge: 0,
   });
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const HealthEditScreen = () => {
               </Text>
               <View className="flex-row items-center border border-orange-200 rounded-xl px-4 py-3 bg-orange-50">
                 <MaterialIcons
-                  name={fieldIcons[field as keyof typeof fieldIcons]}
+                  name={fieldIcons[field as keyof typeof fieldIcons] as React.ComponentProps<typeof MaterialIcons>["name"]}
                   size={20}
                   color="#f97316"
                   className="mr-3"
@@ -147,7 +147,7 @@ const HealthEditScreen = () => {
                   placeholder={`Enter ${field.replace("pet", "pet ")}`}
                   className="flex-1 text-orange-900"
                   keyboardType={field === "petAge" ? "numeric" : "default"}
-                  value={record[field as keyof typeof record].toString()}
+                  value={(record[field as keyof typeof record] ?? "").toString()}
                   onChangeText={(text) =>
                     setRecord({
                       ...record,

@@ -12,7 +12,21 @@ import {
 } from "react-native";
 import { foodStyles as styles } from "@/styles/foodCate";
 
-const services = [
+// ✅ Define type for services
+type Animal = {
+  id: string;
+  title: string;
+  price: string;
+  rating: number;
+  image: string;
+  details: {
+    nutrition: string;
+    vitamins: string;
+    foodOneDay: string;
+  };
+};
+
+const services: Animal[] = [
   {
     id: "1",
     title: "Dog",
@@ -94,9 +108,11 @@ const services = [
 ];
 
 export default function FoodCate() {
-  const [selectedAnimal, setSelectedAnimal] = useState(null);
+  // ✅ Type the state properly
+  const [selectedAnimal, setSelectedAnimal] = useState<Animal | null>(null);
 
-  const renderSmallCard = ({ item }) => (
+  // ✅ Type for render functions
+  const renderSmallCard = ({ item }: { item: Animal }) => (
     <TouchableOpacity
       style={styles.smallCard}
       onPress={() => setSelectedAnimal(item)}
@@ -106,7 +122,7 @@ export default function FoodCate() {
     </TouchableOpacity>
   );
 
-  const renderLargeCard = ({ item }) => (
+  const renderLargeCard = ({ item }: { item: Animal }) => (
     <TouchableOpacity
       style={styles.largeCard}
       onPress={() => setSelectedAnimal(item)}
@@ -125,12 +141,10 @@ export default function FoodCate() {
 
       {/* Header */}
       <View style={[styles.header, { marginBottom: 16 }]}>
-        {/* Back Button */}
         <TouchableOpacity onPress={() => console.log("Go Back")} style={{ marginRight: 12 }}>
           <Text style={{ fontSize: 20 }}>⬅️</Text>
         </TouchableOpacity>
 
-        {/* Greeting Section */}
         <View style={{ flex: 1 }}>
           <Text style={styles.greeting}>Welcome Owner</Text>
           <Text style={styles.subGreeting}>
@@ -138,12 +152,10 @@ export default function FoodCate() {
           </Text>
         </View>
 
-        {/* Notification Icon */}
         <View style={styles.notificationIcon}>
           <Text style={styles.bellIcon}>🔔</Text>
         </View>
       </View>
-
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Hero Banner */}
@@ -171,7 +183,6 @@ export default function FoodCate() {
         <View style={styles.categoriesSection}>
           <Text style={styles.sectionTitle}>Categories</Text>
 
-          {/* Small Cards Row */}
           <FlatList
             data={services.slice(0, 5)}
             renderItem={renderSmallCard}
@@ -181,7 +192,6 @@ export default function FoodCate() {
             contentContainerStyle={styles.smallCardsContainer}
           />
         </View>
-
 
         <View style={styles.featuredSection}>
           <Text style={styles.sectionTitle}>Popular Pets</Text>

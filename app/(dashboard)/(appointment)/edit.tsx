@@ -143,7 +143,7 @@ const AppointmentEditScreen = () => {
               </Text>
               <View className="flex-row items-center border border-blue-200 rounded-xl px-4 py-3 bg-blue-50">
                 <MaterialIcons
-                  name={fieldIcons[field as keyof typeof fieldIcons]}
+                  name={fieldIcons[field as keyof typeof fieldIcons] as React.ComponentProps<typeof MaterialIcons>["name"]}
                   size={20}
                   color="#3b82f6"
                 />

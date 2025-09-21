@@ -1,68 +1,85 @@
-import React, { useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { fishStyles as styles } from '@/styles/fishStyles';
-import { useRouter } from 'expo-router';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { fishStyles as styles } from "@/styles/fishStyles";
+import { useRouter } from "expo-router";
 
+// Define fish details with type
 const fishDetails = {
   clownfish: {
-    title: 'Clownfish',
-    description: 'Brightly colored small fish known for their symbiotic relationship with sea anemones.',
-    image: 'https://1.bp.blogspot.com/-c7vAqGTJptQ/UoXWDFco1gI/AAAAAAAADgI/IGzwvGplXZo/s1600/Clownfish_4.jpg',
+    title: "Clownfish",
+    description:
+      "Brightly colored small fish known for their symbiotic relationship with sea anemones.",
+    image:
+      "https://1.bp.blogspot.com/-c7vAqGTJptQ/UoXWDFco1gI/AAAAAAAADgI/IGzwvGplXZo/s1600/Clownfish_4.jpg",
     info: {
-      Colors: 'Orange, White, Black',
-      'Average Age': '6–10 years',
-      Medicines: 'Regular water treatment, Disease prevention',
+      Colors: "Orange, White, Black",
+      "Average Age": "6–10 years",
+      Medicines: "Regular water treatment, Disease prevention",
     },
   },
   betta: {
-    title: 'Betta Fish',
-    description: 'Vibrant, long-finned fish popular in home aquariums.',
-    image: 'https://miro.medium.com/v2/resize:fit:1024/1*y6udVadaYQQpm5-fzmXfRw.jpeg',
+    title: "Betta Fish",
+    description: "Vibrant, long-finned fish popular in home aquariums.",
+    image:
+      "https://miro.medium.com/v2/resize:fit:1024/1*y6udVadaYQQpm5-fzmXfRw.jpeg",
     info: {
-      Colors: 'Red, Blue, Green, Purple',
-      'Average Age': '3–5 years',
-      Medicines: 'Regular tank cleaning, Water quality monitoring',
+      Colors: "Red, Blue, Green, Purple",
+      "Average Age": "3–5 years",
+      Medicines: "Regular tank cleaning, Water quality monitoring",
     },
   },
   goldfish: {
-    title: 'Goldfish',
-    description: 'Classic freshwater fish, hardy and easy to care for.',
-    image: 'https://images4.alphacoders.com/708/708756.jpg',
+    title: "Goldfish",
+    description: "Classic freshwater fish, hardy and easy to care for.",
+    image: "https://images4.alphacoders.com/708/708756.jpg",
     info: {
-      Colors: 'Orange, White, Black',
-      'Average Age': '3–4 years',
-      Medicines: 'Water quality maintenance, Disease prevention',
+      Colors: "Orange, White, Black",
+      "Average Age": "3–4 years",
+      Medicines: "Water quality maintenance, Disease prevention",
     },
   },
   guppy: {
-    title: 'Guppy',
-    description: 'Small, colorful freshwater fish that are very easy to breed and popular in aquariums.',
-    image: 'https://a-z-animals.com/media/guppy-5.jpg',
+    title: "Guppy",
+    description:
+      "Small, colorful freshwater fish that are very easy to breed and popular in aquariums.",
+    image: "https://a-z-animals.com/media/guppy-5.jpg",
     info: {
-      Colors: 'Red, Blue, Yellow, Green, Multi-colored',
-      'Average Age': '2–3 years',
-      Medicines: 'Regular water changes, Disease prevention',
+      Colors: "Red, Blue, Yellow, Green, Multi-colored",
+      "Average Age": "2–3 years",
+      Medicines: "Regular water changes, Disease prevention",
     },
   },
   angelfish: {
-    title: 'Angelfish',
-    description: 'Elegant freshwater fish with a unique triangular shape and graceful swimming.',
-    image: 'https://i.pinimg.com/originals/df/2f/d8/df2fd837ea5d946b395ada99cde08534.jpg',
+    title: "Angelfish",
+    description:
+      "Elegant freshwater fish with a unique triangular shape and graceful swimming.",
+    image:
+      "https://i.pinimg.com/originals/df/2f/d8/df2fd837ea5d946b395ada99cde08534.jpg",
     info: {
-      Colors: 'Silver, Black, Stripes, Multi-colored',
-      'Average Age': '8–10 years',
-      Medicines: 'Water quality maintenance, Disease prevention',
+      Colors: "Silver, Black, Stripes, Multi-colored",
+      "Average Age": "8–10 years",
+      Medicines: "Water quality maintenance, Disease prevention",
     },
   },
-};
+} as const;
+
+// Create a type of valid keys
+type FishKey = keyof typeof fishDetails;
 
 const FishPage = () => {
-  const [selectedFish, setSelectedFish] = useState<string | null>(null);
+  const [selectedFish, setSelectedFish] = useState<FishKey | null>(null);
   const router = useRouter();
 
-  // Header Component
-  const renderHeader = (title = 'Fish Categories') => (
+  // Header
+  const renderHeader = (title = "Fish Categories") => (
     <View style={styles.header}>
       <View style={styles.headerLeft}>
         <TouchableOpacity
@@ -71,7 +88,7 @@ const FishPage = () => {
             if (selectedFish) {
               setSelectedFish(null);
             } else {
-              router.replace('/dash');
+              router.replace("/dash");
             }
           }}
         >
@@ -85,7 +102,7 @@ const FishPage = () => {
     </View>
   );
 
-  // Footer Component
+  // Footer
   const renderFooter = () => (
     <View style={styles.footer}>
       <Text style={styles.footerText}>🐠 Fish Care App © 2025</Text>
@@ -96,8 +113,9 @@ const FishPage = () => {
   // Fish List
   const renderFishList = () => (
     <View style={styles.listContainer}>
-      {renderHeader('Fish Categories')}
+      {renderHeader("Fish Categories")}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        {/* Hero Section */}
         <View style={styles.heroSection}>
           <View style={styles.heroContent}>
             <Text style={styles.heroTitle}>Fish Care Services</Text>
@@ -109,29 +127,35 @@ const FishPage = () => {
             </TouchableOpacity>
           </View>
           <Image
-            source={{ uri: 'https://smartaquariumguide.com/wp-content/uploads/2019/10/best-aquarium-fish-coldwater.jpg' }}
+            source={{
+              uri: "https://smartaquariumguide.com/wp-content/uploads/2019/10/best-aquarium-fish-coldwater.jpg",
+            }}
             style={styles.heroImage}
           />
         </View>
 
         <Text style={styles.sectionTitle}>Popular Fish</Text>
-        {Object.keys(fishDetails).map((key) => (
+        {(
+          Object.keys(fishDetails) as Array<FishKey>
+        ).map((key) => (
           <TouchableOpacity
             key={key}
             style={styles.breedCard}
             onPress={() => setSelectedFish(key)}
           >
-            <Image
-              source={{ uri: fishDetails[key].image }}
-              style={styles.breedImage}
-            />
+            <Image source={{ uri: fishDetails[key].image }} style={styles.breedImage} />
             <View style={styles.breedContent}>
               <Text style={styles.breedName}>{fishDetails[key].title}</Text>
               <Text style={styles.breedDescription}>
                 {fishDetails[key].description.substring(0, 50)}...
               </Text>
             </View>
-            <Icon name="chevron-forward-outline" size={20} color="#00ACC1" style={styles.chevronIcon} />
+            <Icon
+              name="chevron-forward-outline"
+              size={20}
+              color="#00ACC1"
+              style={styles.chevronIcon}
+            />
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -140,7 +164,7 @@ const FishPage = () => {
   );
 
   // Fish Details
-  const renderFishDetails = (fishKey: string) => {
+  const renderFishDetails = (fishKey: FishKey) => {
     const details = fishDetails[fishKey];
 
     return (
@@ -157,14 +181,10 @@ const FishPage = () => {
             {Object.entries(details.info).map(([label, value], idx) => (
               <View key={idx} style={styles.serviceItem}>
                 <View style={styles.serviceIcon}>
-                  <Icon
-                    name={getFishInfoIcon(label)}
-                    size={16}
-                    color="#00ACC1"
-                  />
+                  <Icon name={getFishInfoIcon(label)} size={16} color="#00ACC1" />
                 </View>
                 <Text style={styles.serviceText}>
-                  <Text style={{ fontWeight: 'bold' }}>{label}: </Text>
+                  <Text style={{ fontWeight: "bold" }}>{label}: </Text>
                   {value}
                 </Text>
               </View>
@@ -176,13 +196,14 @@ const FishPage = () => {
     );
   };
 
+  // Icon mapping
   const getFishInfoIcon = (info: string) => {
     const icons: Record<string, string> = {
-      Colors: 'color-palette-outline',
-      'Average Age': 'time-outline',
-      Medicines: 'medkit-outline',
+      Colors: "color-palette-outline",
+      "Average Age": "time-outline",
+      Medicines: "medkit-outline",
     };
-    return icons[info] || 'paw-outline';
+    return icons[info] || "fish-outline";
   };
 
   return (
