@@ -8,4 +8,5 @@ export interface PetProfile {
   breed: string
   birthday: string
   userId?: string
+  imageUri?: string // <-- new field
 }

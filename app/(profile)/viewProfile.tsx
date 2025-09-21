@@ -1,9 +1,9 @@
-import { View, Text, FlatList, TouchableOpacity, RefreshControl } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, RefreshControl, Image } from "react-native";
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, useFocusEffect } from "expo-router";
 import { getPetsByUserId, deletePet } from "@/services/petService";
 import { PetProfile } from "@/types/pet";
-import { MaterialIcons, FontAwesome5, Entypo } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import { useAuth } from "@/context/AuthContext";
 import "../../global.css";
 
@@ -37,7 +37,7 @@ const ProfileList = () => {
     }, [user])
   );
 
-  // Updated Header with Cart and Subtitle
+  // Header
   const renderHeader = () => (
     <View className="mb-6">
       <View className="flex-row justify-between items-center mb-2">
@@ -51,8 +51,6 @@ const ProfileList = () => {
         <Text className="text-xl font-bold text-orange-900 flex-1 text-center">
           My Pets
         </Text>
-
-
       </View>
 
       {/* Short Description */}
@@ -71,6 +69,7 @@ const ProfileList = () => {
     </View>
   );
 
+  // Empty State
   const renderEmptyState = () => (
     <View className="flex-1 justify-center items-center py-20">
       <View className="bg-orange-100 p-6 rounded-full mb-6">
@@ -90,17 +89,28 @@ const ProfileList = () => {
     </View>
   );
 
+  // Pet Card
   const renderPetCard = ({ item }: { item: PetProfile }) => (
     <View className="bg-white p-5 rounded-2xl mb-4 shadow-sm border border-orange-100">
       <View className="flex-row justify-between items-start">
         <View className="flex-row items-center flex-1">
-          <View className="bg-orange-100 w-16 h-16 rounded-xl items-center justify-center mr-4">
-            <FontAwesome5
-              name={item.species === "Dog" ? "dog" : item.species === "Cat" ? "cat" : "paw"}
-              size={28}
-              color="#ea580c"
+          {/* 🆕 Pet Image or Fallback Icon */}
+          {item.imageUri ? (
+            <Image
+              source={{ uri: item.imageUri }}
+              className="w-16 h-16 rounded-xl mr-4"
             />
-          </View>
+          ) : (
+            <View className="bg-orange-100 w-16 h-16 rounded-xl items-center justify-center mr-4">
+              <FontAwesome5
+                name={item.species === "Dog" ? "dog" : item.species === "Cat" ? "cat" : "paw"}
+                size={28}
+                color="#ea580c"
+              />
+            </View>
+          )}
+
+          {/* Pet Details */}
           <View className="flex-1">
             <Text className="text-xl font-bold text-orange-900">{item.petName}</Text>
             <Text className="text-sm text-orange-700 mt-1">
@@ -108,14 +118,20 @@ const ProfileList = () => {
             </Text>
             <View className="flex-row mt-2">
               <View className="bg-orange-50 px-2 py-1 rounded-md mr-2">
-                <Text className="text-orange-700 text-xs font-medium">Age: {Number(item.age) || 0}</Text>
+                <Text className="text-orange-700 text-xs font-medium">
+                  Age: {Number(item.age) || 0}
+                </Text>
               </View>
               <View className="bg-amber-50 px-2 py-1 rounded-md">
-                <Text className="text-amber-700 text-xs font-medium">Weight: {Number(item.weight) || 0}kg</Text>
+                <Text className="text-amber-700 text-xs font-medium">
+                  Weight: {Number(item.weight) || 0}kg
+                </Text>
               </View>
             </View>
           </View>
         </View>
+
+        {/* Action Buttons */}
         <View className="flex-row">
           <TouchableOpacity
             onPress={() => router.push(`/edit?id=${item.id}`)}

@@ -105,9 +105,16 @@ const Dash = () => {
     {
               id: 7,
               title: 'Appointments',
-              icon: '🚶‍♂️',
+              icon: '📟',
               color: '#45B7D1',
               bgColor: '#E5F3FF'
+    },
+    {
+                  id: 8,
+                  title: 'View Appointments',
+                  icon: '🎰',
+                  color: '#45B7D1',
+                  bgColor: '#E5F3FF'
     }
   ];
 
@@ -257,6 +264,7 @@ const Dash = () => {
                     if (action.title === "Profile Manage") router.push("/petData");
                     if (action.title === "View Profile") router.push("/viewProfile");
                     if (action.title === "Appointments") router.push("/appointment");
+                     if (action.title === "View Appointments") router.push("/viewApp");
                   }}
                 >
                   <Text style={styles.actionIcon}>{action.icon}</Text>

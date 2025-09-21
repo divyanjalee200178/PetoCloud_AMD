@@ -44,22 +44,22 @@ const AppointmentScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-green-50">
+    <View className="flex-1 bg-orange-50">
       {/* Header */}
-      <View className="bg-green-500 p-6 pt-12 rounded-b-3xl shadow-lg">
+      <View className="bg-orange-500 p-6 pt-12 rounded-b-3xl shadow-lg">
         <View className="flex-row items-center justify-between mb-6">
           <Text className="text-3xl font-bold text-white">Appointments</Text>
           <Pressable
             onPress={() => router.push("/new")}
             className="bg-white p-3 rounded-full shadow-md"
           >
-            <MaterialIcons name="add" size={24} color="#22c55e" />
+            <MaterialIcons name="add" size={24} color="#f97316" />
           </Pressable>
         </View>
 
         {appointments.length > 0 && (
           <View className="bg-white p-4 rounded-2xl shadow-md">
-            <Text className="text-green-800 font-semibold text-center">
+            <Text className="text-orange-800 font-semibold text-center">
               {appointments.length} {appointments.length === 1 ? "Appointment" : "Appointments"} Found
             </Text>
           </View>
@@ -70,15 +70,15 @@ const AppointmentScreen = () => {
       <ScrollView className="flex-1 px-4 mt-4" showsVerticalScrollIndicator={false}>
         {appointments.length === 0 ? (
           <View className="items-center justify-center mt-20 p-6">
-            <View className="bg-green-100 p-6 rounded-full mb-6">
-              <FontAwesome5 name="calendar-check" size={48} color="#22c55e" />
+            <View className="bg-orange-100 p-6 rounded-full mb-6">
+              <FontAwesome5 name="calendar-check" size={48} color="#f97316" />
             </View>
-            <Text className="text-xl font-bold text-green-800 mb-2">No Appointments</Text>
-            <Text className="text-green-600 text-center mb-6">
+            <Text className="text-xl font-bold text-orange-800 mb-2">No Appointments</Text>
+            <Text className="text-orange-600 text-center mb-6">
               You don't have any appointments yet. Schedule your first one to get started.
             </Text>
             <Pressable
-              className="bg-green-500 px-6 py-3 rounded-full shadow-md"
+              className="bg-orange-500 px-6 py-3 rounded-full shadow-md"
               onPress={() => router.push("/new")}
             >
               <Text className="text-white font-semibold">Schedule Appointment</Text>
@@ -88,50 +88,50 @@ const AppointmentScreen = () => {
           appointments.map(app => (
             <View
               key={app.id}
-              className="bg-white p-5 mb-4 rounded-2xl shadow-sm border border-green-100"
+              className="bg-white p-5 mb-4 rounded-2xl shadow-sm border border-orange-100"
             >
               <View className="flex-row justify-between items-start mb-3">
-                <Text className="text-xl font-bold text-green-900">{app.petName}</Text>
-                <View className="bg-green-100 px-3 py-1 rounded-full">
-                  <Text className="text-green-800 text-xs font-medium">{app.status || "Scheduled"}</Text>
+                <Text className="text-xl font-bold text-orange-900">{app.petName}</Text>
+                <View className="bg-orange-100 px-3 py-1 rounded-full">
+                  <Text className="text-orange-800 text-xs font-medium">{app.status || "Scheduled"}</Text>
                 </View>
               </View>
 
               <View className="flex-row items-center mb-2">
-                <MaterialIcons name="event" size={16} color="#22c55e" />
-                <Text className="text-green-800 ml-2">
+                <MaterialIcons name="event" size={16} color="#f97316" />
+                <Text className="text-orange-800 ml-2">
                   {app.date} • {app.day} • {app.time}
                 </Text>
               </View>
 
               <View className="flex-row items-center mb-2">
-                <MaterialIcons name="location-on" size={16} color="#22c55e" />
-                <Text className="text-green-800 ml-2">{app.location}</Text>
+                <MaterialIcons name="location-on" size={16} color="#f97316" />
+                <Text className="text-orange-800 ml-2">{app.location}</Text>
               </View>
 
               <View className="flex-row items-center mb-2">
-                <MaterialIcons name="person" size={16} color="#22c55e" />
-                <Text className="text-green-800 ml-2">{app.vetName || "Unassigned"}</Text>
+                <MaterialIcons name="person" size={16} color="#f97316" />
+                <Text className="text-orange-800 ml-2">{app.vetName || "Unassigned"}</Text>
               </View>
 
               <View className="flex-row items-center mb-4">
-                <MaterialIcons name="pets" size={16} color="#22c55e" />
-                <Text className="text-green-800 ml-2">Reason: {app.reason}</Text>
+                <MaterialIcons name="pets" size={16} color="#f97316" />
+                <Text className="text-orange-800 ml-2">Reason: {app.reason}</Text>
               </View>
 
               <View className="flex-row justify-end space-x-3">
                 <TouchableOpacity
-                  className="bg-green-100 px-4 py-2 rounded-full flex-row items-center"
+                  className="bg-orange-100 px-4 py-2 rounded-full flex-row items-center"
                   onPress={() =>
                     app.id &&
                     router.push({
-                      pathname: "/appointment",
+                      pathname: "/edit",
                       params: { id: app.id, mode: "edit" },
                     })
                   }
                 >
-                  <MaterialIcons name="edit" size={16} color="#22c55e" />
-                  <Text className="text-green-700 font-medium ml-1">Edit</Text>
+                  <MaterialIcons name="edit" size={16} color="#f97316" />
+                  <Text className="text-orange-700 font-medium ml-1">Edit</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -147,17 +147,12 @@ const AppointmentScreen = () => {
         )}
       </ScrollView>
 
-      {/* Floating Action Button */}
-      {appointments.length > 0 && (
-        <View className="absolute bottom-5 right-5">
-          <Pressable
-            className="bg-green-500 p-5 rounded-full shadow-xl"
-            onPress={() => router.push("/new")}
-          >
-            <MaterialIcons name="add" size={28} color="#fff" />
-          </Pressable>
-        </View>
-      )}
+      {/* Footer */}
+      <View className="bg-orange-100 p-6 items-center justify-center">
+        <Text className="text-orange-800 text-center text-sm">
+          Manage all your pet appointments easily. Tap on an appointment to view details, edit, or delete.
+        </Text>
+      </View>
     </View>
   );
 };

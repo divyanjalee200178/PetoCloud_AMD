@@ -1,9 +1,18 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+  Image,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { getPetById, updatePet } from "@/services/petService";
 import { PetProfile } from "@/types/pet";
 import { LinearGradient } from "expo-linear-gradient";
+import * as ImagePicker from "expo-image-picker";
 
 const EditPet = () => {
   const router = useRouter();
@@ -33,9 +42,35 @@ const EditPet = () => {
     loadPet();
   }, [id]);
 
+  const pickImage = async () => {
+    // Ask for permissions
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      Alert.alert("Permission Denied", "Camera roll access is required.");
+      return;
+    }
+
+    // Launch picker
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setPet((prev) =>
+        prev ? { ...prev, imageUri: uri } : { imageUri: uri } as PetProfile
+      );
+    }
+  };
+
   const handleUpdate = async () => {
     if (!pet?.petName || !pet.species || !pet.breed) {
-      return Alert.alert("Validation", "Pet name, species, and breed are required.");
+      return Alert.alert(
+        "Validation",
+        "Pet name, species, and breed are required."
+      );
     }
 
     try {
@@ -56,7 +91,9 @@ const EditPet = () => {
     return (
       <View className="flex-1 bg-orange-50 justify-center items-center">
         <Text className="text-4xl mb-4">🐕</Text>
-        <Text className="text-orange-700 text-lg font-medium">Loading pet details...</Text>
+        <Text className="text-orange-700 text-lg font-medium">
+          Loading pet details...
+        </Text>
       </View>
     );
   }
@@ -94,21 +131,31 @@ const EditPet = () => {
         {/* Profile Image Section */}
         <View className="items-center my-6">
           <View className="bg-white p-2 rounded-2xl shadow-lg">
-            <View className="w-24 h-24 bg-orange-100 rounded-2xl items-center justify-center">
-              <Text className="text-4xl">
-                {pet.species === "cat"
-                  ? "🐱"
-                  : pet.species === "bird"
-                  ? "🐦"
-                  : pet.species === "fish"
-                  ? "🐠"
-                  : pet.species === "rabbit"
-                  ? "🐰"
-                  : "🐕"}
-              </Text>
-            </View>
+            {pet.imageUri ? (
+              <Image
+                source={{ uri: pet.imageUri }}
+                className="w-24 h-24 rounded-2xl"
+              />
+            ) : (
+              <View className="w-24 h-24 bg-orange-100 rounded-2xl items-center justify-center">
+                <Text className="text-4xl">
+                  {pet.species === "cat"
+                    ? "🐱"
+                    : pet.species === "bird"
+                    ? "🐦"
+                    : pet.species === "fish"
+                    ? "🐠"
+                    : pet.species === "rabbit"
+                    ? "🐰"
+                    : "🐕"}
+                </Text>
+              </View>
+            )}
           </View>
-          <TouchableOpacity className="mt-4 bg-orange-500 px-4 py-2 rounded-full">
+          <TouchableOpacity
+            onPress={pickImage}
+            className="mt-4 bg-orange-500 px-4 py-2 rounded-full"
+          >
             <Text className="text-white font-medium">Change Photo 📸</Text>
           </TouchableOpacity>
         </View>
@@ -124,7 +171,7 @@ const EditPet = () => {
 
           {["petName", "species", "breed", "gender"].map((field) => (
             <View key={field} className="mb-5">
-              <Text className="text-orange-700 font-semibold mb-2 flex-row items-center">
+              <Text className="text-orange-700 font-semibold mb-2">
                 {field === "petName"
                   ? "🐶 Pet Name"
                   : field === "species"
@@ -157,7 +204,7 @@ const EditPet = () => {
 
           {["age", "weight", "birthday"].map((field) => (
             <View key={field} className="mb-5">
-              <Text className="text-orange-700 font-semibold mb-2 flex-row items-center">
+              <Text className="text-orange-700 font-semibold mb-2">
                 {field === "age"
                   ? "🎂 Age"
                   : field === "weight"

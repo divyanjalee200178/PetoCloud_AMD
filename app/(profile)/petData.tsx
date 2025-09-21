@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Platform } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Platform, Image } from "react-native"
 import React, { useState } from "react"
 import { useRouter } from "expo-router"
 import { createPet } from "@/services/petService"
@@ -6,6 +6,7 @@ import { PetProfile } from "@/types/pet"
 import { useAuth } from "@/context/AuthContext"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { MaterialIcons } from "@expo/vector-icons"
+import * as ImagePicker from "expo-image-picker"
 import "../../global.css";
 
 const AddPet = () => {
@@ -21,15 +22,36 @@ const AddPet = () => {
     breed: "",
     birthday: "",
     userId: user?.uid,
+    imageUri: "", // 🆕
   })
 
   const [showDatePicker, setShowDatePicker] = useState(false)
+
+  // 🆕 Image Picker Function
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (status !== "granted") {
+      Alert.alert("Permission Required", "We need access to your gallery 📸")
+      return
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 0.8,
+    })
+
+    if (!result.canceled) {
+      setPet({ ...pet, imageUri: result.assets[0].uri })
+    }
+  }
 
   const handleSave = async () => {
     if (!pet.petName || !pet.species || !pet.breed) {
       return Alert.alert("Validation ⚠️", "Pet name, species, and breed are required.")
     }
-    await createPet(pet)
+    await createPet(pet) // save with imageUri too
     router.back()
   }
 
@@ -49,6 +71,26 @@ const AddPet = () => {
       {/* Scrollable Form */}
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
         <View className="bg-white rounded-2xl shadow-lg p-6">
+          {/* 🆕 Pet Image Upload */}
+          <View className="mb-4 items-center">
+            {pet.imageUri ? (
+              <Image
+                source={{ uri: pet.imageUri }}
+                className="w-32 h-32 rounded-full mb-2"
+              />
+            ) : (
+              <View className="w-32 h-32 rounded-full bg-orange-100 items-center justify-center mb-2">
+                <MaterialIcons name="pets" size={48} color="#FB923C" />
+              </View>
+            )}
+            <TouchableOpacity
+              onPress={pickImage}
+              className="bg-orange-500 px-4 py-2 rounded-lg"
+            >
+              <Text className="text-white font-medium">📷 Pick Image</Text>
+            </TouchableOpacity>
+          </View>
+
           {/* Pet Name */}
           <View className="mb-4">
             <Text className="text-orange-800 font-medium mb-1">🐶 Pet Name</Text>
