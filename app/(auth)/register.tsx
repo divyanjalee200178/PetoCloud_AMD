@@ -5,77 +5,79 @@ import {
   TouchableOpacity,
   Pressable,
   Alert,
-  ActivityIndicator
-} from "react-native"
-import React, { useState } from "react"
-import { useRouter } from "expo-router"
-import { register } from "@/services/authService"
+  ActivityIndicator,
+} from "react-native";
+import React, { useState } from "react";
+import { useRouter } from "expo-router";
+import { register } from "@/services/authService";
 
 const Register = () => {
-  const router = useRouter()
-  const [email, setEmail] = useState<string>("")
-  const [password, setPasword] = useState<string>("")
-  const [isLodingReg, setIsLoadingReg] = useState<boolean>(false)
+  const router = useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoadingReg, setIsLoadingReg] = useState<boolean>(false);
 
   const handleRegister = async () => {
-    // if(!email){
+    if (isLoadingReg) return;
 
-    // }
-    // 
-    if (isLodingReg) return
-    setIsLoadingReg(true)
+    setIsLoadingReg(true);
     await register(email, password)
       .then((res) => {
-        console.log(res)
-        router.back()
+        console.log(res);
+        router.back();
       })
       .catch((err) => {
-        console.error(err)
-        Alert.alert("Registration fail", "Somthing went wrong")
-        // import { Alert } from "react-native"
+        console.error(err);
+        Alert.alert("Registration Failed", "Something went wrong");
       })
       .finally(() => {
-        setIsLoadingReg(false)
-      })
-  }
+        setIsLoadingReg(false);
+      });
+  };
 
   return (
-    <View className="flex-1 bg-gray-100 justify-center p-4">
-      <Text className="text-2xl font-bold mb-6 text-blue-600 text-center">
+    <View className="flex-1 bg-orange-50 justify-center p-6">
+      <Text className="text-3xl font-extrabold mb-8 text-orange-600 text-center">
         Register
       </Text>
+
       <TextInput
         placeholder="Email"
-        className="bg-surface border border-gray-300 rounded px-4 py-3 mb-4 text-gray-900"
-        placeholderTextColor="#9CA3AF"
+        className="bg-white border border-orange-300 rounded-xl px-5 py-4 mb-5 text-gray-900 shadow-sm"
+        placeholderTextColor="#F97316"
         value={email}
         onChangeText={setEmail}
       />
+
       <TextInput
         placeholder="Password"
-        className="bg-surface border border-gray-300 rounded px-4 py-3 mb-4 text-gray-900"
-        placeholderTextColor="#9CA3AF"
+        className="bg-white border border-orange-300 rounded-xl px-5 py-4 mb-5 text-gray-900 shadow-sm"
+        placeholderTextColor="#F97316"
         secureTextEntry
         value={password}
-        onChangeText={setPasword}
+        onChangeText={setPassword}
       />
+
       <TouchableOpacity
-        className="bg-green-600 p-4 rounded mt-2"
+        className="bg-orange-500 p-4 rounded-xl mb-4 shadow-md"
         onPress={handleRegister}
       >
-        {isLodingReg ? (
+        {isLoadingReg ? (
           <ActivityIndicator color="#fff" size="large" />
         ) : (
-          <Text className="text-center text-2xl text-white">Register</Text>
+          <Text className="text-center text-2xl text-white font-semibold">
+            Register
+          </Text>
         )}
       </TouchableOpacity>
+
       <Pressable onPress={() => router.back()}>
-        <Text className="text-center text-blue-500 text-xl">
-          Alredy have an account? Login
+        <Text className="text-center text-orange-600 text-lg mt-3 underline">
+          Already have an account? Login
         </Text>
       </Pressable>
     </View>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

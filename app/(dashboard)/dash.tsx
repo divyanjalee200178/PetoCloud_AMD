@@ -85,36 +85,36 @@ const Dash = () => {
       id: 4,
       title: 'View Records',
       icon: '🚶‍♂️',
-      color: '#45B7D1',
-      bgColor: '#E5F3FF'
+      color: '#E56109',
+      bgColor: '#F5BE9A'
     },
     {
       id: 5,
       title: 'Profile Manage',
       icon: '🐕‍🦺',
-      color: '#96CEB4',
-      bgColor: '#E5F5ED'
+      color: '#3A3838',
+      bgColor: '#CECECE'
     },
     {
           id: 6,
           title: 'View Profile',
           icon: '🚶‍♂️',
-          color: '#45B7D1',
-          bgColor: '#E5F3FF'
+          color: '#817F08',
+          bgColor: '#ECECC8'
     },
     {
-              id: 7,
-              title: 'Appointments',
-              icon: '📟',
-              color: '#45B7D1',
-              bgColor: '#E5F3FF'
+          id: 7,
+          title: 'Appointments',
+          icon: '📟',
+          color: '#E10F30',
+          bgColor: '#EFC3CA'
     },
     {
-                  id: 8,
-                  title: 'View Appointments',
-                  icon: '🎰',
-                  color: '#45B7D1',
-                  bgColor: '#E5F3FF'
+          id: 8,
+          title: 'View Appointments',
+          icon: '🎰',
+          color: '#4B08EB',
+          bgColor: '#E7DDFF'
     }
   ];
 
@@ -155,7 +155,7 @@ const Dash = () => {
     },
     {
       id: 2,
-      task: 'Medication',
+      task: 'Vet Hospital',
       time: '6:00 PM',
       priority: 'medium',
       icon: '💊'
@@ -310,42 +310,65 @@ const Dash = () => {
         </View>
 
         {/* Upcoming Tasks */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Upcoming Tasks</Text>
-          {upcomingTasks.map((task, index) => (
-            <Animated.View
-              key={task.id}
-              style={[
-                styles.taskCard,
-                {
-                  opacity: fadeAnim,
-                  transform: [{
-                    translateX: slideAnim.interpolate({
-                      inputRange: [0, 50],
-                      outputRange: [0, index % 2 === 0 ? -30 : 30],
-                    })
-                  }]
-                }
-              ]}
-            >
-              <View style={styles.taskIcon}>
-                <Text style={styles.taskEmoji}>{task.icon}</Text>
-              </View>
-              <View style={styles.taskInfo}>
-                <Text style={styles.taskTitle}>{task.task}</Text>
-                <Text style={styles.taskTime}>{task.time}</Text>
-              </View>
-              <View style={[
-                styles.priorityDot,
-                {
-                  backgroundColor:
-                    task.priority === 'high' ? '#FF6B6B' :
-                    task.priority === 'medium' ? '#FFD93D' : '#4ECDC4'
-                }
-              ]} />
-            </Animated.View>
-          ))}
-        </View>
+       <View style={styles.section}>
+         <Text style={styles.sectionTitle}>Upcoming Tasks</Text>
+         {upcomingTasks.map((task, index) => (
+           <TouchableOpacity
+             key={task.id}
+             activeOpacity={0.8}
+             onPress={() => {
+               if (task.task === "Vet Appointment") {
+                 router.push("/viewApp");
+               } else if (task.task === "Vet Hospital") {
+                 router.push("/hospital");
+               } else if (task.task === "Grooming") {
+                 router.push("/");
+               } else {
+                 router.push("/dash");
+               }
+             }}
+           >
+             <Animated.View
+               style={[
+                 styles.taskCard,
+                 {
+                   opacity: fadeAnim,
+                   transform: [
+                     {
+                       translateX: slideAnim.interpolate({
+                         inputRange: [0, 50],
+                         outputRange: [0, index % 2 === 0 ? -30 : 30],
+                       }),
+                     },
+                   ],
+                 },
+               ]}
+             >
+               <View style={styles.taskIcon}>
+                 <Text style={styles.taskEmoji}>{task.icon}</Text>
+               </View>
+               <View style={styles.taskInfo}>
+                 <Text style={styles.taskTitle}>{task.task}</Text>
+                 <Text style={styles.taskTime}>{task.time}</Text>
+               </View>
+               <View
+                 style={[
+                   styles.priorityDot,
+                   {
+                     backgroundColor:
+                       task.priority === "high"
+                         ? "#FF6B6B"
+                         : task.priority === "medium"
+                         ? "#FFD93D"
+                         : "#4ECDC4",
+                   },
+                 ]}
+               />
+             </Animated.View>
+           </TouchableOpacity>
+         ))}
+       </View>
+
 
         {/* Bottom Spacing */}
         <View style={{ height: 100 }} />
