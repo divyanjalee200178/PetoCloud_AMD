@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/icons.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.induminisilva.PetoCloud"
     },
     "web": {
       "bundler": "metro",
