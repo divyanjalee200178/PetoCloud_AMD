@@ -4,7 +4,7 @@
     "slug": "PetoCloud",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splashscreen_logo.png",
+    "icon": "./assets/images/icons.png",
     "scheme": "petocloud",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/splashscreen_logo.png",
+        "foregroundImage": "./assets/images/icons.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -21,14 +21,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/splashscreen_logo.png"
+      "favicon": "./assets/images/icons.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splashscreen_logo.png",
+          "image": "./assets/images/icons.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
